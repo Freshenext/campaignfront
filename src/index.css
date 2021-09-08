@@ -12,59 +12,6 @@ code {
     monospace;
 }
 
-.primaryBackgroundColor {
-  background: linear-gradient(225deg, #4181f6, #8649f1);
-  color: white !important;
-}
-
-.alertError {
-  background: linear-gradient(90deg, rgba(246,65,65,1) 35%, rgb(239, 42, 42) 100%) !important;
-  color: white !important;
-}
-
-.alertSuccess {
-  background: linear-gradient(90deg, rgb(43, 194, 0) 35%, rgb(28, 190, 37) 100%) !important;
-  color: white !important;
-}
-
-.alertDiv {
-  padding: 10px 10px;
-  display: inline-flex;
-  font-weight: bold;
-}
-
-.iconMargin {
-  margin-right: 0.3em;
-}
-
-img.logo {
-  margin: 1px;
-  padding: 1em;
-  height: 43px;
-}
-
-.listItem {
-  background-color: aliceblue;
-  font-weight: bold !important;
-  cursor: pointer;
-}
-
-.listItem.selected {
-  background-color: lightblue;
-  color: white;
-  font-weight: bold !important;
-  cursor: pointer;
-}
-
-
-.listItem span {
-  font-weight: bold !important;
-}
-
-.listItem:hover {
-  background-color: #4181f6;
-  font-weight: bold !important;
-}
 
 .primaryBackgroundColor {
   background: linear-gradient(225deg, #4181f6, #8649f1);
@@ -118,4 +65,48 @@ img.logo {
 .listItem:hover {
   background-color: #4181f6;
   font-weight: bold !important;
+}
+
+.imgCampaigns {
+  /*max-width: 200px;  */
+  width: 100%;
+  height: 356px;
+}
+
+.divCampaign {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: center;
+}
+
+.divHiddenCampaign{
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.divHiddenOpacity {
+  opacity: 0.5;
+  background-color: black;
+}
+
+.gridFlexed {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.gridFlexed > div {
+  margin: 1em;
+}
+
+.divHiddenCard {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
 }
