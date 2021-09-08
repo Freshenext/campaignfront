@@ -72,7 +72,7 @@ function DrawerComponent(props) {
             <Divider />
             <TextField
                 id="standard-basic"
-                label="Search for Campaigns"
+                label="Search for Categories"
                 variant="outlined"
                 style={{ margin: '1em'}}
                 onChange={(e) => {
