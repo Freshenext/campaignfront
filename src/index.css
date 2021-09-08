@@ -11,3 +11,111 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.primaryBackgroundColor {
+  background: linear-gradient(225deg, #4181f6, #8649f1);
+  color: white !important;
+}
+
+.alertError {
+  background: linear-gradient(90deg, rgba(246,65,65,1) 35%, rgb(239, 42, 42) 100%) !important;
+  color: white !important;
+}
+
+.alertSuccess {
+  background: linear-gradient(90deg, rgb(43, 194, 0) 35%, rgb(28, 190, 37) 100%) !important;
+  color: white !important;
+}
+
+.alertDiv {
+  padding: 10px 10px;
+  display: inline-flex;
+  font-weight: bold;
+}
+
+.iconMargin {
+  margin-right: 0.3em;
+}
+
+img.logo {
+  margin: 1px;
+  padding: 1em;
+  height: 43px;
+}
+
+.listItem {
+  background-color: aliceblue;
+  font-weight: bold !important;
+  cursor: pointer;
+}
+
+.listItem.selected {
+  background-color: lightblue;
+  color: white;
+  font-weight: bold !important;
+  cursor: pointer;
+}
+
+
+.listItem span {
+  font-weight: bold !important;
+}
+
+.listItem:hover {
+  background-color: #4181f6;
+  font-weight: bold !important;
+}
+
+.primaryBackgroundColor {
+  background: linear-gradient(225deg, #4181f6, #8649f1);
+  color: white !important;
+}
+
+.alertError {
+  background: linear-gradient(90deg, rgba(246,65,65,1) 35%, rgb(239, 42, 42) 100%) !important;
+  color: white !important;
+}
+
+.alertSuccess {
+  background: linear-gradient(90deg, rgb(43, 194, 0) 35%, rgb(28, 190, 37) 100%) !important;
+  color: white !important;
+}
+
+.alertDiv {
+  padding: 10px 10px;
+  display: inline-flex;
+  font-weight: bold;
+}
+
+.iconMargin {
+  margin-right: 0.3em;
+}
+
+img.logo {
+  margin: 1px;
+  padding: 1em;
+  height: 43px;
+}
+
+.listItem {
+  background-color: aliceblue;
+  font-weight: bold !important;
+  cursor: pointer;
+}
+
+.listItem.selected {
+  background-color: lightblue;
+  color: white;
+  font-weight: bold !important;
+  cursor: pointer;
+}
+
+
+.listItem span {
+  font-weight: bold !important;
+}
+
+.listItem:hover {
+  background-color: #4181f6;
+  font-weight: bold !important;
+}

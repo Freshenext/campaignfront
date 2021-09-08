@@ -1,6 +1,8 @@
-import {Button, CircularProgress, Grid, TextField, Typography} from "@material-ui/core";
+import {Button, CircularProgress, Grid, Snackbar, TextField, Typography} from "@material-ui/core";
 import {useEffect, useState} from "react";
 import useStore from "./store";
+import AlertComponent from "./AlertComponent";
+import CustomSnackbarComponent from "./CustomSnackbarComponent";
 
 const campaignObjInitState = {
     name : "",
@@ -12,7 +14,12 @@ const campaignObjInitState = {
 export default function FormComponent(props){
     const [campaignObj, setCampaignObj] = useState(campaignObjInitState);
     const [campaignObjError, setCampaignObjError] = useState("");
-    const {fetchCampaigns, campaigns, editCampaign, createCampaign, deleteCampaign, error, isLoading} = useStore(state => state);
+    const {editCampaign,
+        createCampaign,
+        isLoading,
+        createSuccess,
+        setCreateSuccess, deleteSuccess, setDeleteSuccess,
+        setEditSuccess, editSuccess} = useStore(state => state);
 
     const handleChange = (e) => {
         if(e.target.name === "image"){
@@ -81,7 +88,7 @@ export default function FormComponent(props){
 
 
     return <Grid container spacing={3}>
-        <Grid xs={4} item>
+        <Grid xs={12} sm={6} md={4} item>
             <TextField
                 id="name"
                 label="Name of Campaign"
@@ -89,9 +96,10 @@ export default function FormComponent(props){
                 value={campaignObj.name}
                 onChange={handleChange}
                 name="name"
+                fullWidth
             />
         </Grid>
-        <Grid xs={4} item>
+        <Grid xs={12} sm={6} md={4} item>
             <TextField
                 id="category"
                 label="Category"
@@ -99,22 +107,26 @@ export default function FormComponent(props){
                 value={campaignObj.category}
                 onChange={handleChange}
                 name="category"
+                fullWidth
             />
         </Grid>
-        <Grid xs={12} item>
+        <Grid xs={12} sm={12} md={8} item>
             <TextField
                 id="url"
-                label="url"
+                label="URL"
                 variant="outlined"
                 value={campaignObj.url}
                 onChange={handleChange}
                 name="url"
+                helperText="i.e https://sofiapulse.com/"
+                fullWidth
             />
         </Grid>
         <Grid xs={12} item>
             <Button
                 variant="contained"
                 component="label"
+                className="primaryBackgroundColor"
             >
                 Upload image
                 <input
@@ -130,13 +142,17 @@ export default function FormComponent(props){
         <Grid item xs={12}>
             <Button variant="contained"
                     onClick={submit}
+                    className="primaryBackgroundColor"
             >{props.editAble ? "Edit Campaign" : "Create new Campaign"}</Button>
         </Grid>
         <Grid item xs={12}>
-            {campaignObjError && <div>Error: {campaignObjError}</div>}
+            {campaignObjError && <AlertComponent variant={"error"} message={campaignObjError} />}
         </Grid>
         <Grid item xs={2} style={{ textAlign: 'center'}}>
             {isLoading && <CircularProgress />}
         </Grid>
+        {createSuccess && <CustomSnackbarComponent message={"Campaigns saved successfully"} customFunctionOnHide={() => setCreateSuccess(false)} />}
+        {deleteSuccess && <CustomSnackbarComponent message={"Campaign deleted successfully"} customFunctionOnHide={() => setDeleteSuccess(false)} />}
+        {editSuccess && <CustomSnackbarComponent message={"Campaign edited successfully"} customFunctionOnHide={() => setEditSuccess(false)} />}
     </Grid>
 }

@@ -5,14 +5,26 @@ const useStore = create((set,get) => ({
     campaigns : [],
     error : "",
     isLoading : false,
+    createSuccess : false,
+    deleteSuccess : false,
+    editSuccess : false,
+    setEditSuccess : editSuccess => {
+        set({ editSuccess});
+    },
+    setDeleteSuccess : deleteSuccess => {
+        set({ deleteSuccess});
+    },
     setLoading : (isLoading = false) => {
         set({ isLoading });
     },
     setError : (error = "") => {
         set({ error });
     },
+    setCreateSuccess : (createSuccess = false) => {
+        set({ createSuccess })
+    },
     resetStatus : () => {
-        set({ isLoading : false, error : ""});
+        set({ isLoading : false, error : "", createSuccess : false, deleteSuccess : false});
     },
     fetchCampaigns : () => {
         customAxios.get('')
@@ -40,6 +52,7 @@ const useStore = create((set,get) => ({
         return customAxios.post('', formData)
             .then(response => {
                 get().fetchCampaigns();
+                get().setCreateSuccess(true);
             })
             .catch(err => {
                 get().setError(err.response.data);
@@ -61,6 +74,7 @@ const useStore = create((set,get) => ({
         return customAxios.put(`/${campaignObj.id}`, formData)
             .then(response => {
                 get().fetchCampaigns();
+                get().setEditSuccess(true);
             })
             .catch(err => {
                 get().setError(err.response.data);
@@ -74,6 +88,7 @@ const useStore = create((set,get) => ({
         customAxios.delete(`/${id}`)
             .then(( { data }) => {
                 get().fetchCampaigns();
+                get().setDeleteSuccess(true);
             })
             .catch(err => {
 
@@ -81,6 +96,24 @@ const useStore = create((set,get) => ({
             .finally(() => {
 
             });
+    },
+    categories : [],
+    fetchCategories : () => {
+        customAxios.get('/category/list')
+            .then(( {data} ) => {
+                set({ categories : data});
+            })
+    },
+    selectedCategory : {},
+    setSelectedCategory : selectedCategoryIndex => {
+        set({ selectedCategory: {}});
+        const newCategories = get().categories.map((category,index) => {
+            if(index === selectedCategoryIndex){
+                set( {selectedCategory : category});
+                return {...category, selected : true}
+            } else return {...category, selected : false}
+        })
+        set( {categories : newCategories});
     }
 }));
 
