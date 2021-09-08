@@ -4,7 +4,7 @@ import DrawerCampaignListComponent from "./CampaignsGalleryFeature/components/Dr
 import CampaignContainerComponent from "./CampaignContainerComponent";
 import {BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
 import DemosCrudComponent from "./DemosCrudComponent";
-import CampaignsComponent from "./CampaignsGalleryFeature/CampaignsComponent";
+import DrawerComponent from "./CampaignsGalleryFeature/DrawerComponent";
 
 const theme = createTheme({
     palette : {
@@ -21,7 +21,7 @@ function App() {
                 <DemosCrudComponent />
             </Route>
             <Route path="/campaigns" exact>
-                <CampaignsComponent />
+                <DrawerComponent />
             </Route>
         </Router>
     </MuiThemeProvider>

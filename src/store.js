@@ -8,6 +8,10 @@ const useStore = create((set,get) => ({
     createSuccess : false,
     deleteSuccess : false,
     editSuccess : false,
+    categorySearch : '',
+    setCategorySearch : searchText => {
+        set ({ categorySearch : searchText});
+    },
     setEditSuccess : editSuccess => {
         set({ editSuccess});
     },

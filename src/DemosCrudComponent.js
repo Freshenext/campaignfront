@@ -63,7 +63,7 @@ export default function DemosCrudComponent(){
                                         <TableCell>{campaign.category}</TableCell>
                                         <TableCell>{campaign.url}</TableCell>
                                         <TableCell>
-                                            <img src={"http://localhost:5000/images/" + campaign.imagePath} className="imageRes" />
+                                            <img src={"https://campaignapi.francis.center/images/" + campaign.imagePath} className="imageRes" />
                                         </TableCell>
                                         <TableCell>
                                             <Button variant='contained'
