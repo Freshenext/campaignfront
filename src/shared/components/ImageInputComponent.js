@@ -3,7 +3,7 @@ import {Cancel, Close, Image} from "@material-ui/icons";
 import {Button} from "@material-ui/core";
 import AlertComponent from "./AlertComponent";
 
-export default function ImageInputComponent({image, setImage, height = '200px'}){
+export default function ImageInputComponent({image, setImage, height = '200px', setError = undefined}){
     const [imageBase64, setImageBase64] = useState(undefined);
     const [imageError, setImageError] = useState({ isError : false, text : ""});
     useEffect(() => {

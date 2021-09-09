@@ -8,9 +8,17 @@ import ImageInputComponent from "./shared/components/ImageInputComponent";
 import useCheckbox from "./shared/components/useCheckbox";
 
 export default function FormComponent(props){
-    const { register, handleSubmit, formState: { errors }} = useForm();
-    const [isMobile, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", true);
-    const [isDesktop, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", true);
+    const [isMobile, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", props.isMobile || true);
+    const [isDesktop, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", props.isDesktop || true);
+    const [imageError, setImageError] = useState("");
+    const { register, handleSubmit, formState: { errors }} = useForm({ defaultValues :{
+            isMobile,
+            isDesktop,
+            name : props.name,
+            category : props.category,
+            url : props.url
+        }});
+
     const [image, setImage] = useState(undefined);
     const {editCampaign,
         createCampaign,
@@ -20,13 +28,28 @@ export default function FormComponent(props){
         setEditSuccess, editSuccess} = useStore(state => state);
 
     const submit = async formValues => {
-
+        setImageError("");
         if(props.id){
             //Send edit
-            await editCampaign({...formValues, image});
+            await editCampaign({...formValues, id : props.id,image, isDesktop, isMobile});
+            props.closeDialog();
         } else {
             //Create
-            await createCampaign({...formValues, image});
+            if(!image){
+                setImageError("An image is required.");
+                return;
+            }
+
+            createCampaign({...formValues, image, isDesktop, isMobile})
+                .then(_ => {
+                    props.closeDialog();
+                })
+                .catch(err => {
+                    if(err.response){
+                        setImageError(err.response.data)
+                    }
+                });
+
         }
     }
 
@@ -68,7 +91,7 @@ export default function FormComponent(props){
         </Grid>
         <Grid xs={12} item>
             <ImageInputComponent image={image} setImage={setImage} />
-            {errors.image && <AlertComponent variant={"error"} message={"An image is required."} />}
+            {imageError && <AlertComponent variant={"error"} message={"An image is required."} />}
         </Grid>
         <Grid xs={12} item>
             {IsMobileCheckBoxComponent}
@@ -78,13 +101,10 @@ export default function FormComponent(props){
             <Button variant="contained"
                     onClick={handleSubmit(submit)}
                     className="primaryBackgroundColor"
-            >{props.editAble ? "Edit Campaign" : "Create new Campaign"}</Button>
+            >{props.id ? "Edit Campaign" : "Create new Campaign"}</Button>
         </Grid>
         <Grid item xs={2} style={{ textAlign: 'center'}}>
             {isLoading && <CircularProgress />}
         </Grid>
-        {createSuccess && <CustomSnackbarComponent message={"Campaigns saved successfully"} customFunctionOnHide={() => setCreateSuccess(false)} />}
-        {deleteSuccess && <CustomSnackbarComponent message={"Campaign deleted successfully"} customFunctionOnHide={() => setDeleteSuccess(false)} />}
-        {editSuccess && <CustomSnackbarComponent message={"Campaign edited successfully"} customFunctionOnHide={() => setEditSuccess(false)} />}
     </Grid>
 }

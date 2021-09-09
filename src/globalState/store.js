@@ -52,9 +52,11 @@ const useStore = create((set,get) => ({
         formData.append('name', campaignObj.name);
         formData.append('category', campaignObj.category);
         formData.append('url', campaignObj.url);
+        formData.append('isMobile', campaignObj.isMobile);
+        formData.append('isDesktop', campaignObj.isDesktop);
         formData.append('image', campaignObj.image, campaignObj.image.name);
 
-        return customAxios.post('', formData)
+        return customAxios.post('/campaigns', formData)
             .then(response => {
                 get().fetchCampaigns();
                 get().setCreateSuccess(true);
@@ -73,10 +75,13 @@ const useStore = create((set,get) => ({
         formData.append('name', campaignObj.name);
         formData.append('category', campaignObj.category);
         formData.append('url', campaignObj.url);
+        formData.append('isMobile', campaignObj.isMobile);
+        formData.append('isDesktop', campaignObj.isDesktop);
+
         if(campaignObj.image){
             formData.append('image', campaignObj.image, campaignObj.image.name);
         }
-        return customAxios.put(`/${campaignObj.id}`, formData)
+        return customAxios.put(`/campaigns/${campaignObj.id}`, formData)
             .then(response => {
                 get().fetchCampaigns();
                 get().setEditSuccess(true);
@@ -90,7 +95,7 @@ const useStore = create((set,get) => ({
     },
     deleteCampaign : id => {
         get().resetStatus();
-        customAxios.delete(`/${id}`)
+        customAxios.delete(`/campaigns/${id}`)
             .then(( { data }) => {
                 get().fetchCampaigns();
                 get().setDeleteSuccess(true);

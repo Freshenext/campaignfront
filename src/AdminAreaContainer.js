@@ -20,9 +20,12 @@ import CampaignCreateEditDialogComponent from "./CampaignCreateEditDialogCompone
 import FormComponent from "./FormComponent";
 import useToggle from "./shared/hooks/useToggle";
 import CampaignTableRow from "./AdminPanelFeature/components/CampaignTableRow";
+import CustomSnackbarComponent from "./CustomSnackbarComponent";
 
 export default function AdminAreaContainer(){
-    const {fetchCampaigns, campaigns, createCampaign, deleteCampaign, error, isLoading} = useStore(state => state);
+    const {fetchCampaigns, campaigns, createSuccess, setCreateSuccess
+        ,editSuccess, setEditSuccess
+    ,deleteSuccess, setDeleteSuccess} = useStore(state => state);
     const [create, toggleCreate] = useToggle();
     //const [campaignObj, setCampaignObj] = useState(campaignObjInitState);
     const [campaignObjError, setCampaignObjError] = useState("");
@@ -54,6 +57,8 @@ export default function AdminAreaContainer(){
                                     <TableCell>Name</TableCell>
                                     <TableCell>Category</TableCell>
                                     <TableCell>URL</TableCell>
+                                    <TableCell>Is Desktop</TableCell>
+                                    <TableCell>Is Mobile</TableCell>
                                     <TableCell>Image File</TableCell>
                                     <TableCell>Actions</TableCell>
                                 </TableRow>
@@ -65,6 +70,9 @@ export default function AdminAreaContainer(){
                             </TableBody>
                         </Table>
                     </TableContainer>
+                    {createSuccess && <CustomSnackbarComponent message={"Campaigns saved successfully"} customFunctionOnHide={() => setCreateSuccess(false)} />}
+                    {deleteSuccess && <CustomSnackbarComponent message={"Campaign deleted successfully"} customFunctionOnHide={() => setDeleteSuccess(false)} />}
+                    {editSuccess && <CustomSnackbarComponent message={"Campaign edited successfully"} customFunctionOnHide={() => setEditSuccess(false)} />}
                 </Grid>
             </Grid>
             {editCampaign !== null &&
