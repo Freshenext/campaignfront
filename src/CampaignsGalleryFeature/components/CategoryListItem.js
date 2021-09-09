@@ -1,5 +1,5 @@
 import {ListItem, ListItemText} from "@material-ui/core";
-import useStore from "../../store";
+import useStore from "../../globalState/store";
 
 export default function CategoryListItem({name, selected = false, index = -1}){
     const {setSelectedCategory, selectedCategory} = useStore(state => state);

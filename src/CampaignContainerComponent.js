@@ -1,5 +1,5 @@
 import {Button, Container, Grid} from "@material-ui/core";
-import useStore from "./store";
+import useStore from "./globalState/store";
 import {useEffect} from "react";
 import CampaignElementComponent from "./CampaignsGalleryFeature/components/CampaignElementComponent";
 

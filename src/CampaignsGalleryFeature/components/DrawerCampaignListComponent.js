@@ -1,5 +1,5 @@
 import {Drawer, List, ListItem, ListItemText, TextField, Typography} from "@material-ui/core";
-import useStore from "../../store";
+import useStore from "./../../globalState/store";
 import {useEffect} from "react";
 import CategoryListItem from "./CategoryListItem";
 

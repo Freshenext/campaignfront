@@ -1,5 +1,5 @@
 import create from 'zustand';
-import customAxios from "./customAxios";
+import customAxios from "../customAxios";
 
 const useStore = create((set,get) => ({
     campaigns : [],
@@ -31,8 +31,9 @@ const useStore = create((set,get) => ({
         set({ isLoading : false, error : "", createSuccess : false, deleteSuccess : false});
     },
     fetchCampaigns : () => {
-        customAxios.get('')
+        customAxios.get('/campaigns')
             .then(( { data }) => {
+
                 set(state => ({
                     ...state, campaigns : data
                 }))

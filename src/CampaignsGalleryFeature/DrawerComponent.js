@@ -9,7 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import useStore from "../store";
+import useStore from "../globalState/store";
 import CategoryListItem from "./components/CategoryListItem";
 import {TextField} from "@material-ui/core";
 import CampaignContainerComponent from "../CampaignContainerComponent";

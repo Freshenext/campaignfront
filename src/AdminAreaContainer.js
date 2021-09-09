@@ -15,12 +15,15 @@ import {
     Typography
 } from "@material-ui/core";
 import {useEffect, useState} from "react";
-import useStore from "./store";
-import CampaignEditDialogComponent from "./CampaignEditDialogComponent";
+import useStore from "./../src/globalState/store";
+import CampaignCreateEditDialogComponent from "./CampaignCreateEditDialogComponent";
 import FormComponent from "./FormComponent";
+import useToggle from "./shared/hooks/useToggle";
+import CampaignTableRow from "./AdminPanelFeature/components/CampaignTableRow";
 
-export default function DemosCrudComponent(){
+export default function AdminAreaContainer(){
     const {fetchCampaigns, campaigns, createCampaign, deleteCampaign, error, isLoading} = useStore(state => state);
+    const [create, toggleCreate] = useToggle();
     //const [campaignObj, setCampaignObj] = useState(campaignObjInitState);
     const [campaignObjError, setCampaignObjError] = useState("");
     const [editCampaign, setEditCampaign] = useState(null);
@@ -39,10 +42,10 @@ export default function DemosCrudComponent(){
         </AppBar>
         <Toolbar style={{ marginBottom: '1em'}} />
         <Container style={{ marginTop: '2em'}}>
-            <FormComponent />
+            {create && <CampaignCreateEditDialogComponent closeDialog={toggleCreate}  />}
+            <Button className="primaryBackgroundColor" onClick={toggleCreate}>Create Campaign</Button>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-
                     <TableContainer component={Paper}>
                         <Table >
                             <TableHead>
@@ -57,32 +60,7 @@ export default function DemosCrudComponent(){
                             </TableHead>
                             <TableBody>
                                 {campaigns.map(campaign => {
-                                    return <TableRow key={campaign.id}>
-                                        <TableCell>{campaign.id}</TableCell>
-                                        <TableCell>{campaign.name}</TableCell>
-                                        <TableCell>{campaign.category}</TableCell>
-                                        <TableCell>{campaign.url}</TableCell>
-                                        <TableCell>
-                                            <img src={"https://campaignapi.francis.center/images/" + campaign.imagePath} className="imageRes" />
-                                        </TableCell>
-                                        <TableCell>
-                                            <Button variant='contained'
-                                                    color="primary"
-                                                    onClick={() => {
-                                                        setEditCampaign(campaign);
-                                                    }}
-                                            style={{ marginRight: '1em'}}>
-                                                Edit
-                                            </Button>
-                                            <Button
-                                                variant='contained'
-                                                color="primary"
-                                                onClick={() => {
-                                                    deleteCampaign(campaign.id);
-                                                }}
-                                            >Delete</Button>
-                                        </TableCell>
-                                    </TableRow>
+                                    return <CampaignTableRow campaign={campaign} />
                                 })}
                             </TableBody>
                         </Table>
@@ -90,7 +68,7 @@ export default function DemosCrudComponent(){
                 </Grid>
             </Grid>
             {editCampaign !== null &&
-                <CampaignEditDialogComponent {...editCampaign} closeDialog={() => setEditCampaign(null)}
+                <CampaignCreateEditDialogComponent {...editCampaign} closeDialog={() => setEditCampaign(null)}
 
                 />
             }
