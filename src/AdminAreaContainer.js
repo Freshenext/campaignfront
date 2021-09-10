@@ -23,22 +23,23 @@ import CampaignTableRow from "./AdminPanelFeature/components/CampaignTableRow";
 import CustomSnackbarComponent from "./CustomSnackbarComponent";
 import MultipleSelect from "./shared/MultipleSelect";
 import MultiSelectCustom from "./MultiSelectCustom";
+import {useDispatch, useSelector} from "react-redux";
+import CampaignActions from "./globalState/campaigns/campaignActions";
 
 export default function AdminAreaContainer(){
-    const {fetchCampaigns, campaigns, createSuccess, setCreateSuccess
-        ,editSuccess, setEditSuccess
-    ,deleteSuccess, setDeleteSuccess} = useStore(state => state);
     const [create, toggleCreate] = useToggle();
-    //const [campaignObj, setCampaignObj] = useState(campaignObjInitState);
-    const [campaignObjError, setCampaignObjError] = useState("");
+    const {campaigns, createSuccess, editSuccess, deleteSuccess, isLoading, error} = useSelector(state => state.campaign);
     const [editCampaign, setEditCampaign] = useState(null);
     const [selectedValues, setSelectedValues] = useState([]);
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        fetchCampaigns();
-    }, []);
+        dispatch(CampaignActions.fetchCampaigns());
+    },[]);
 
-
+    useEffect(() => {
+        console.log(campaigns);
+    }, [campaigns]);
 
     return <>
         <AppBar >
@@ -56,8 +57,9 @@ export default function AdminAreaContainer(){
                     <MultiSelectCustom setSelectedValues={setSelectedValues}  />
                 </Grid>
                 <Grid item xs={12}>
+                    {isLoading && <CircularProgress />}
                     <TableContainer component={Paper}>
-                        <Table >
+                        <Table>
                             <TableHead>
                                 <TableRow>
                                     <TableCell>Id</TableCell>
@@ -71,15 +73,16 @@ export default function AdminAreaContainer(){
                                 </TableRow>
                             </TableHead>
                             <TableBody>
+
                                 {campaigns.map(campaign => {
                                     return <CampaignTableRow campaign={campaign} />
                                 })}
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {createSuccess && <CustomSnackbarComponent message={"Campaigns saved successfully"} customFunctionOnHide={() => setCreateSuccess(false)} />}
-                    {deleteSuccess && <CustomSnackbarComponent message={"Campaign deleted successfully"} customFunctionOnHide={() => setDeleteSuccess(false)} />}
-                    {editSuccess && <CustomSnackbarComponent message={"Campaign edited successfully"} customFunctionOnHide={() => setEditSuccess(false)} />}
+                    {/*{createSuccess && <CustomSnackbarComponent message={"Campaigns saved successfully"} customFunctionOnHide={() => setCreateSuccess(false)} />}*/}
+                    {/*{deleteSuccess && <CustomSnackbarComponent message={"Campaign deleted successfully"} customFunctionOnHide={() => setDeleteSuccess(false)} />}*/}
+                    {/*{editSuccess && <CustomSnackbarComponent message={"Campaign edited successfully"} customFunctionOnHide={() => setEditSuccess(false)} />}*/}
                 </Grid>
             </Grid>
             {editCampaign !== null &&

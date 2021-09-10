@@ -9,18 +9,29 @@ const classes = {
     },
     selectedItemsFirst : {
         flex : '90 1 0',
-
-
     },
     selectedItemsSecond : {
         flex : '10 1 0',
         alignSelf: 'center'
+    },
+    paperHide : {
+        display: 'none'
+    },
+    selectContainerMultiSelect : {
+        position: 'absolute',
+        top: '120%',
+        backgroundColor: 'white',
+        width: '100%'
+    },
+    selectContainerPadding : {
+        padding: '1em'
     }
 }
 
 export default function MultiSelectCustom({elements = [], setSelectedValues}){
     const [insertCategory, setInsertCategory] = useState({ name : ""});
     const [currentElements, setCurrentElements] = useState(elements);
+    const [hideSelect, setHideSelect] = useState(true);
     const handleInsertCategory = (e) => {
         //dataForSelect.push(insertCategory);
         setInsertCategory({ name : e.target.value});
@@ -73,10 +84,11 @@ export default function MultiSelectCustom({elements = [], setSelectedValues}){
                     />
                 })}
             </div>
-            <div  style={classes.selectedItemsSecond}>show drop</div>
+            <div  style={classes.selectedItemsSecond} onClick={() => setHideSelect(!hideSelect)}>show drop</div>
         </div>
-        <Paper elevation={3} className="selectContainerMultiSelect">
-            <div className="addMultiSelect">
+        {!hideSelect &&
+        <Paper elevation={3} style={classes.selectContainerMultiSelect}>
+            <div className="addMultiSelect" style={classes.selectContainerPadding}>
                 <TextField
                     label="Insert category"
                     variant="outlined"
@@ -90,7 +102,7 @@ export default function MultiSelectCustom({elements = [], setSelectedValues}){
                     onKeyPress={handleInsertCategoryEnter}
                 />
             </div>
-            <div className="optionsMultiSelect">
+            <div className="optionsMultiSelect" style={classes.selectContainerPadding}>
                 {currentElements.map((element, index) => (
                     <MenuItem
                         onClick={() => handleElementAdded(index)}
@@ -101,6 +113,6 @@ export default function MultiSelectCustom({elements = [], setSelectedValues}){
                 ))}
 
             </div>
-        </Paper>
+        </Paper>}
     </div>
 }

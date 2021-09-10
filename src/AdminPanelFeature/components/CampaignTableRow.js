@@ -1,11 +1,12 @@
 import {Button, TableCell, TableRow} from "@material-ui/core";
 import useToggle from "../../shared/hooks/useToggle";
 import CampaignCreateEditDialogComponent from "../../CampaignCreateEditDialogComponent";
-import useStore from "../../globalState/store";
+
 import {Cancel, Check} from "@material-ui/icons";
+import {useSelector} from "react-redux";
 
 export default function CampaignTableRow({campaign}){
-    const { deleteCampaign } = useStore(state => state);
+    const {deleteCampaign} = useSelector(state => state.campaign);
     const [editToggle, setEditToggle] = useToggle();
     return <TableRow key={campaign.id}>
         <TableCell>{campaign.id}</TableCell>

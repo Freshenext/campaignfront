@@ -124,24 +124,3 @@ img.logo {
   margin: 1em 0;
   border-bottom: 1px solid black;
 }
-
-.selectContainerMultiSelect {
-  position: absolute;
-  top: 120%;
-  background-color: white;
-  width: 100%;
-  padding: 1em;
-}
-
-.optionsMultiSelect {
-
-}
-
-optionsMultiSelect.selected {
-
-}
-
-.chipSelected {
-  margin: 0 1em;
-}
-
