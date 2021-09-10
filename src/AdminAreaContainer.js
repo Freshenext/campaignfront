@@ -21,6 +21,8 @@ import FormComponent from "./FormComponent";
 import useToggle from "./shared/hooks/useToggle";
 import CampaignTableRow from "./AdminPanelFeature/components/CampaignTableRow";
 import CustomSnackbarComponent from "./CustomSnackbarComponent";
+import MultipleSelect from "./shared/MultipleSelect";
+import MultiSelectCustom from "./MultiSelectCustom";
 
 export default function AdminAreaContainer(){
     const {fetchCampaigns, campaigns, createSuccess, setCreateSuccess
@@ -30,6 +32,7 @@ export default function AdminAreaContainer(){
     //const [campaignObj, setCampaignObj] = useState(campaignObjInitState);
     const [campaignObjError, setCampaignObjError] = useState("");
     const [editCampaign, setEditCampaign] = useState(null);
+    const [selectedValues, setSelectedValues] = useState([]);
 
     useEffect(() => {
         fetchCampaigns();
@@ -47,7 +50,11 @@ export default function AdminAreaContainer(){
         <Container style={{ marginTop: '2em'}}>
             {create && <CampaignCreateEditDialogComponent closeDialog={toggleCreate}  />}
             <Button className="primaryBackgroundColor" onClick={toggleCreate}>Create Campaign</Button>
+
             <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <MultiSelectCustom setSelectedValues={setSelectedValues}  />
+                </Grid>
                 <Grid item xs={12}>
                     <TableContainer component={Paper}>
                         <Table >
