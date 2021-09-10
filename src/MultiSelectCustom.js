@@ -21,14 +21,21 @@ const classes = {
         position: 'absolute',
         top: '120%',
         backgroundColor: 'white',
-        width: '100%'
+        width: '100%',
+        zIndex : 999
     },
     selectContainerPadding : {
         padding: '1em'
+    },
+    menuItemContainer : {
+        display: 'flex'
+    },
+    menuItemItems : {
+        flex: '1'
     }
 }
 
-export default function MultiSelectCustom({elements = [], setSelectedValues}){
+export default function MultiSelectCustom({elements = [], setSelectedValues, onAddNew = undefined, onDelete = undefined}){
     const [insertCategory, setInsertCategory] = useState({ name : ""});
     const [currentElements, setCurrentElements] = useState(elements);
     const [hideSelect, setHideSelect] = useState(true);
@@ -37,13 +44,18 @@ export default function MultiSelectCustom({elements = [], setSelectedValues}){
         setInsertCategory({ name : e.target.value});
     }
 
+    useEffect(() => {
+        setCurrentElements(elements);
+    },[elements]);
+
     const handleInsertCategoryEnter = (e) => {
         if(e.key === "Enter"){
             // Add category if not empty
+
             if(insertCategory.name !== ""){
-                console.log("pushing");
+                if(onAddNew)
+                    onAddNew(insertCategory);
                 currentElements.push(insertCategory);
-                console.log("pushed");
                 setInsertCategory({ name : ""});
             }
         }
@@ -54,6 +66,7 @@ export default function MultiSelectCustom({elements = [], setSelectedValues}){
     }, [currentElements]);
 
     const setSelectedElements = () => {
+        console.log("adding to array");
         setSelectedValues(currentElements.filter(element => element.isSelected));
     }
 
@@ -62,13 +75,15 @@ export default function MultiSelectCustom({elements = [], setSelectedValues}){
         setCurrentElements([...currentElements]);
     }
 
-    useEffect(_ => {
-        console.log(currentElements);
-    }, [currentElements]);
-
     const handleElementRemoved = selectedValue => {
         selectedValue.isSelected = 0;
         setCurrentElements([...currentElements]);
+    }
+
+    const handleDelete = id => {
+        if(onDelete){
+            onDelete(id);
+        }
     }
 
 
@@ -103,12 +118,15 @@ export default function MultiSelectCustom({elements = [], setSelectedValues}){
                 />
             </div>
             <div className="optionsMultiSelect" style={classes.selectContainerPadding}>
-                {currentElements.map((element, index) => (
+                {elements.map((element, index) => (
                     <MenuItem
-                        onClick={() => handleElementAdded(index)}
                         selected={element.isSelected}
+                        style={classes.menuItemContainer}
                     >
-                        {element.name}
+                        <div style={classes.menuItemItems} onClick={() => handleElementAdded(index)}>{element.name}</div>
+                        <div onClick={() => handleDelete(element.id)}>
+                            <DeleteOutline />
+                        </div>
                     </MenuItem>
                 ))}
 

@@ -15,9 +15,8 @@ import {
     Typography
 } from "@material-ui/core";
 import {useEffect, useState} from "react";
-import useStore from "./../src/globalState/store";
 import CampaignCreateEditDialogComponent from "./CampaignCreateEditDialogComponent";
-import FormComponent from "./FormComponent";
+
 import useToggle from "./shared/hooks/useToggle";
 import CampaignTableRow from "./AdminPanelFeature/components/CampaignTableRow";
 import CustomSnackbarComponent from "./CustomSnackbarComponent";
@@ -30,7 +29,6 @@ export default function AdminAreaContainer(){
     const [create, toggleCreate] = useToggle();
     const {campaigns, createSuccess, editSuccess, deleteSuccess, isLoading, error} = useSelector(state => state.campaign);
     const [editCampaign, setEditCampaign] = useState(null);
-    const [selectedValues, setSelectedValues] = useState([]);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -53,9 +51,6 @@ export default function AdminAreaContainer(){
             <Button className="primaryBackgroundColor" onClick={toggleCreate}>Create Campaign</Button>
 
             <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <MultiSelectCustom setSelectedValues={setSelectedValues}  />
-                </Grid>
                 <Grid item xs={12}>
                     {isLoading && <CircularProgress />}
                     <TableContainer component={Paper}>

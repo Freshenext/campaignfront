@@ -6,11 +6,18 @@ import CustomSnackbarComponent from "./CustomSnackbarComponent";
 import {useForm} from 'react-hook-form';
 import ImageInputComponent from "./shared/components/ImageInputComponent";
 import useCheckbox from "./shared/components/useCheckbox";
+import {useDispatch, useSelector} from "react-redux";
+import CampaignActions from './globalState/campaigns/campaignActions';
+import categoriesActions from "./globalState/categories/categoriesActions";
+import MultiSelectCustom from "./MultiSelectCustom";
 
 export default function FormComponent(props){
     const [isMobile, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", props.isMobile || true);
     const [isDesktop, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", props.isDesktop || true);
+    const dispatch = useDispatch();
+    const [selectedCategories, setSelectedCategories] = useState([]);
     const [imageError, setImageError] = useState("");
+    const { categories} = useSelector(state => state.category);
     const { register, handleSubmit, formState: { errors }} = useForm({ defaultValues :{
             isMobile,
             isDesktop,
@@ -18,20 +25,24 @@ export default function FormComponent(props){
             category : props.category,
             url : props.url
         }});
-
     const [image, setImage] = useState(undefined);
-    const {editCampaign,
-        createCampaign,
+
+    useEffect(() => {
+        dispatch(categoriesActions.fetchCategories());
+    }, []);
+
+    useEffect(() => {
+        console.log("Categories changed");
+    }, [categories]);
+    const {
         isLoading,
-        createSuccess,
-        setCreateSuccess, deleteSuccess, setDeleteSuccess,
-        setEditSuccess, editSuccess} = useStore(state => state);
+        } = useSelector(state => state.campaign);
 
     const submit = async formValues => {
         setImageError("");
         if(props.id){
             //Send edit
-            await editCampaign({...formValues, id : props.id,image, isDesktop, isMobile});
+            //await editCampaign({...formValues, id : props.id,image, isDesktop, isMobile});
             props.closeDialog();
         } else {
             //Create
@@ -40,22 +51,13 @@ export default function FormComponent(props){
                 return;
             }
 
-            createCampaign({...formValues, image, isDesktop, isMobile})
-                .then(_ => {
-                    props.closeDialog();
-                })
-                .catch(err => {
-                    if(err.response){
-                        setImageError(err.response.data)
-                    }
-                });
-
+            dispatch(CampaignActions.createCampaign({...formValues, image, isDesktop, isMobile, category : selectedCategories.map(cat => cat.id).join(',')}));
         }
     }
 
 
     return <Grid container spacing={3}>
-        <Grid xs={12} sm={6} md={4} item>
+        <Grid xs={12} sm={6} md={6} item>
             <TextField
                 id="name"
                 label="Name of Campaign"
@@ -66,18 +68,15 @@ export default function FormComponent(props){
                 {...(errors.name ? { error : true, helperText : "Name is required"} : {})}
             />
         </Grid>
-        <Grid xs={12} sm={6} md={4} item>
-            <TextField
-                id="category"
-                label="Category"
-                variant="outlined"
-                name="category"
-                fullWidth
-                {...register('category', { required : true})}
-                {...(errors.category ? { error : true, helperText : "Category is required"} : {})}
+        <Grid xs={12} sm={6} md={6} item>
+            <MultiSelectCustom
+                elements={categories}
+                setSelectedValues={setSelectedCategories}
+                onAddNew={(data) => dispatch(categoriesActions.createCategory(data))}
+                onDelete={(id) => dispatch(categoriesActions.deleteCategory(id))}
             />
         </Grid>
-        <Grid xs={12} sm={12} md={8} item>
+        <Grid xs={12} sm={12} md={12} item>
             <TextField
                 id="url"
                 label="URL"

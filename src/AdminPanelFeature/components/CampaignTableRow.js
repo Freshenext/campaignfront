@@ -3,15 +3,16 @@ import useToggle from "../../shared/hooks/useToggle";
 import CampaignCreateEditDialogComponent from "../../CampaignCreateEditDialogComponent";
 
 import {Cancel, Check} from "@material-ui/icons";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import campaignActions from "../../globalState/campaigns/campaignActions";
 
 export default function CampaignTableRow({campaign}){
-    const {deleteCampaign} = useSelector(state => state.campaign);
+    const dispatch = useDispatch();
     const [editToggle, setEditToggle] = useToggle();
     return <TableRow key={campaign.id}>
         <TableCell>{campaign.id}</TableCell>
         <TableCell>{campaign.name}</TableCell>
-        <TableCell>{campaign.category}</TableCell>
+        <TableCell>{campaign.Categories && campaign.Categories.map(Category => Category.name).join(',')}</TableCell>
         <TableCell>{campaign.url}</TableCell>
         <TableCell>{campaign.isDesktop ? <Check /> : <Cancel />}</TableCell>
         <TableCell>{campaign.isMobile ? <Check /> : <Cancel />}</TableCell>
@@ -31,7 +32,7 @@ export default function CampaignTableRow({campaign}){
                 variant='contained'
                 color="primary"
                 onClick={() => {
-                    deleteCampaign(campaign.id);
+                    dispatch(campaignActions.deleteCampaign(campaign.id));
                 }}
             >Delete</Button>
         </TableCell>

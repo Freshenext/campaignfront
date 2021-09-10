@@ -1,3 +1,5 @@
+import customAxios from "../customAxios";
+
 export function boostrapAxiosState(state = undefined, nameOfObject = ''){
     const stateObjects = {
         error : "",
@@ -105,4 +107,15 @@ export function boostrapReducer(type,payload, state, initialState, extraReducerF
     if(Object.keys(obj).includes(type))
         return obj[type](payload);
     else return state;
+}
+
+export function getFormData(object){
+    return Object.keys(object).reduce((formData, key) => {
+        //if array then add it as an array
+        if(Array.isArray(object[key])){
+            object[key].map(element => formData.append(`${key}`, element.id));
+        }
+        else formData.append(key, object[key]);
+        return formData;
+    }, new FormData());
 }
