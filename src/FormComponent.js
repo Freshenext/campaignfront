@@ -12,10 +12,12 @@ import categoriesActions from "./globalState/categories/categoriesActions";
 import MultiSelectCustom from "./MultiSelectCustom";
 
 export default function FormComponent(props){
-    const [isMobile, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", props.isMobile || true);
-    const [isDesktop, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", props.isDesktop || true);
+
+    const [isMobile, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", props.isMobile);
+    const [isDesktop, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", props.isDesktop);
     const dispatch = useDispatch();
-    const [selectedCategories, setSelectedCategories] = useState([]);
+
+    const [selectedCategories, setSelectedCategories] = useState(props ? (props.Categories ? props.Categories : []) : []);
     const [imageError, setImageError] = useState("");
     const { categories} = useSelector(state => state.category);
     const { register, handleSubmit, formState: { errors }} = useForm({ defaultValues :{
@@ -31,9 +33,6 @@ export default function FormComponent(props){
         dispatch(categoriesActions.fetchCategories());
     }, []);
 
-    useEffect(() => {
-        console.log("Categories changed");
-    }, [categories]);
     const {
         isLoading,
         } = useSelector(state => state.campaign);

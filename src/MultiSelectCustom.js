@@ -1,5 +1,5 @@
 import {Chip, InputAdornment, MenuItem, Paper, TextField} from "@material-ui/core";
-import {AddCircle, Delete, DeleteOutline, RemoveCircle} from "@material-ui/icons";
+import {AddCircle, ArrowDownwardOutlined, Delete, DeleteOutline, RemoveCircle} from "@material-ui/icons";
 import {useEffect, useState} from "react";
 
 const classes = {
@@ -99,7 +99,7 @@ export default function MultiSelectCustom({elements = [], setSelectedValues, onA
                     />
                 })}
             </div>
-            <div  style={classes.selectedItemsSecond} onClick={() => setHideSelect(!hideSelect)}>show drop</div>
+            <div  style={classes.selectedItemsSecond} onClick={() => setHideSelect(!hideSelect)}><ArrowDownwardOutlined /></div>
         </div>
         {!hideSelect &&
         <Paper elevation={3} style={classes.selectContainerMultiSelect}>
