@@ -51,13 +51,21 @@ export default function MultiSelectEditComponent({setSelectedValues, onAddNew = 
 
     useEffect(() => {
         /* Set categories that are selected */
+        setCategoriesSelected();
+    }, []);
+
+    useEffect(()=> {
+        setCategoriesSelected();
+    }, [categories]);
+
+    const setCategoriesSelected = () => {
         currentCategories.map(currentCategory => {
             const categoryFound = [...categories].find(categoryFinder => categoryFinder.id === currentCategory.id);
             if(categoryFound)
                 categoryFound.isSelected = true;
         });
         setCategoriesArr(categories);
-    }, [])
+    }
 
     const handleInsertCategoryEnter = (e) => {
         if(e.key === "Enter"){
