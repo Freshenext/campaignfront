@@ -59,10 +59,19 @@ function deleteCategory(id){
     }
 }
 
+function setSelectedCategory(selectedCategory){
+    console.log("WTF");
+    return {
+        'type' : 'category/SET_SELECTED_CATEGORY',
+        payload : selectedCategory
+    }
+}
+
 const categoryActions = {
     ...defaultActions,
     fetchCategories,
     createCategory,
-    deleteCategory
+    deleteCategory,
+    setSelectedCategory
 }
 export default categoryActions;

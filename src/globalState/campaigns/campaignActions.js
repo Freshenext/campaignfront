@@ -29,7 +29,8 @@ function createCampaign(newCampaign){
         const formData = getFormData(newCampaign);
         return customAxios.post('/campaigns', formData)
             .then(response => {
-
+                dispatch(defaultActions.setCreateSuccess(true));
+                dispatch(fetchCampaigns());
             })
             .catch(error => {
                 if(error.response)
@@ -38,6 +39,18 @@ function createCampaign(newCampaign){
             })
             .finally(() => {
                 dispatch(defaultActions.setLoading(false));
+            })
+    }
+}
+
+function editCampaign(campaign){
+    return dispatch => {
+        dispatch(defaultActions.setLoading(true));
+        const formData = getFormData(campaign);
+        return customAxios.put(`/campaigns/${campaign.id}`, formData)
+            .then(() => {
+                dispatch(defaultActions.setEditSuccess(true));
+                dispatch(fetchCampaigns());
             })
     }
 }
@@ -60,6 +73,7 @@ const actions = {
 ...defaultActions,
     fetchCampaigns,
     createCampaign,
-    deleteCampaign
+    deleteCampaign,
+    editCampaign
 }
 export default actions;

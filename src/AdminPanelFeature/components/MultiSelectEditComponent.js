@@ -1,6 +1,8 @@
 import {Chip, InputAdornment, MenuItem, Paper, TextField} from "@material-ui/core";
 import {AddCircle, ArrowDownwardOutlined, Delete, DeleteOutline, RemoveCircle} from "@material-ui/icons";
 import {useEffect, useState} from "react";
+import categoriesActions from "../../globalState/categories/categoriesActions";
+import {useSelector} from "react-redux";
 
 const classes = {
     selectedItemsContainer : {
@@ -36,9 +38,11 @@ const classes = {
     }
 }
 
-export default function MultiSelectCustom({elements = [], setSelectedValues, onAddNew = undefined, onDelete = undefined}){
+export default function MultiSelectEditComponent({setSelectedValues, onAddNew = undefined, onDelete = undefined, currentCategories}){
+    const { categories } = useSelector(state => state.category);
+    const [categoriesArr, setCategoriesArr] = useState([]);
     const [insertCategory, setInsertCategory] = useState({ name : ""});
-    const [currentElements, setCurrentElements] = useState(elements);
+
     const [hideSelect, setHideSelect] = useState(true);
     const handleInsertCategory = (e) => {
         //dataForSelect.push(insertCategory);
@@ -46,39 +50,38 @@ export default function MultiSelectCustom({elements = [], setSelectedValues, onA
     }
 
     useEffect(() => {
-        setCurrentElements(elements);
-    },[elements]);
+        /* Set categories that are selected */
+        currentCategories.map(currentCategory => {
+            const categoryFound = [...categories].find(categoryFinder => categoryFinder.id === currentCategory.id);
+            categoryFound.isSelected = true;
+        });
+        setCategoriesArr(categories);
+    }, [])
 
     const handleInsertCategoryEnter = (e) => {
         if(e.key === "Enter"){
             // Add category if not empty
-
             if(insertCategory.name !== ""){
                 if(onAddNew)
                     onAddNew(insertCategory);
-                currentElements.push(insertCategory);
                 setInsertCategory({ name : ""});
             }
         }
     }
 
-    useEffect(() => {
-        setSelectedElements();
-    }, [currentElements]);
 
-    const setSelectedElements = () => {
-        console.log("adding to array");
-        setSelectedValues(currentElements.filter(element => element.isSelected));
-    }
+    useEffect(() => {
+        setSelectedValues(categoriesArr.filter(element => element.isSelected === true));
+    }, [categoriesArr]);
 
     const handleElementAdded = index => {
-        currentElements[index].isSelected = currentElements[index].isSelected ? !currentElements[index].isSelected : true;
-        setCurrentElements([...currentElements]);
+        categoriesArr[index].isSelected = categoriesArr[index].isSelected ? !categoriesArr[index].isSelected : true;
+        setCategoriesArr([...categoriesArr]);
     }
 
     const handleElementRemoved = selectedValue => {
-        selectedValue.isSelected = 0;
-        setCurrentElements([...currentElements]);
+        selectedValue.isSelected = false;
+        setCategoriesArr([...categoriesArr]);
     }
 
     const handleDelete = id => {
@@ -91,7 +94,7 @@ export default function MultiSelectCustom({elements = [], setSelectedValues, onA
     return <div className="containerMultiSelect">
         <div style={classes.selectedItemsContainer} onClick={() => setHideSelect(!hideSelect)}>
             <div style={classes.selectedItemsFirst}>
-                {currentElements.filter(element => element.isSelected).map(selectedValue => {
+                {categoriesArr.filter(element => element.isSelected).map(selectedValue => {
                     return <Chip
                         className="chipSelected"
                         label={selectedValue.name}
@@ -119,7 +122,7 @@ export default function MultiSelectCustom({elements = [], setSelectedValues, onA
                 />
             </div>
             <div className="optionsMultiSelect" style={classes.selectContainerPadding}>
-                {elements.map((element, index) => (
+                {categoriesArr.map((element, index) => (
                     <MenuItem
                         selected={element.isSelected}
                         style={classes.menuItemContainer}

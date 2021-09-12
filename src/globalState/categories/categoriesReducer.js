@@ -2,6 +2,8 @@ import {boostrapAxiosState, boostrapReducer} from "../../shared/utilities";
 
 const initState = {
     categories : [],
+    selectedCategory : {},
+    categorySearch : "",
     ...boostrapAxiosState()[0]
 }
 
@@ -12,6 +14,11 @@ export function categoriesReducer(state =initState, {type,payload}){
         "category/SET_CATEGORIES" : payload => {
             return {
                 ...state, categories : payload
+            }
+        },
+        "category/SET_SELECTED_CATEGORY" : payload => {
+            return {
+                ...state, selectedCategory : payload
             }
         }
     }

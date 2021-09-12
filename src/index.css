@@ -124,3 +124,17 @@ img.logo {
   margin: 1em 0;
   border-bottom: 1px solid black;
 }
+
+
+@media only screen and (max-width: 600px){
+  .hideOnMobile {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 600px){
+  .hideOnDesktop {
+    display: none;
+  }
+}
+

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
@@ -9,10 +9,13 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import useStore from "../globalState/store";
+
 import CategoryListItem from "./components/CategoryListItem";
 import {TextField} from "@material-ui/core";
 import CampaignContainerComponent from "../CampaignContainerComponent";
+import {useDispatch, useSelector} from "react-redux";
+import campaignActions from "../globalState/campaigns/campaignActions";
+import categoriesActions from "../globalState/categories/categoriesActions";
 
 const drawerWidth = 240;
 
@@ -53,11 +56,15 @@ function DrawerComponent(props) {
     const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-    const { categories, fetchCategories, categorySearch, setCategorySearch} = useStore(state => state);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const { category : { categories } } = useSelector(state => state);
+    const [categorySearch, setCategorySearch] = useState("");
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        fetchCategories();
+        dispatch(campaignActions.fetchCampaigns());
+        dispatch(categoriesActions.fetchCategories());
+        console.log(categories);
     }, []);
 
     const handleDrawerToggle = () => {

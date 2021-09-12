@@ -1,32 +1,28 @@
 import {Button, CircularProgress, Grid, Snackbar, TextField, Typography} from "@material-ui/core";
 import {useEffect, useState} from "react";
-import useStore from "./globalState/store";
-import AlertComponent from "./shared/components/AlertComponent";
-import CustomSnackbarComponent from "./CustomSnackbarComponent";
+import AlertComponent from "./../../shared/components/AlertComponent";
 import {useForm} from 'react-hook-form';
-import ImageInputComponent from "./shared/components/ImageInputComponent";
-import useCheckbox from "./shared/components/useCheckbox";
+import ImageInputComponent from "./../../shared/components/ImageInputComponent";
+import useCheckbox from "./../../shared/components/useCheckbox";
 import {useDispatch, useSelector} from "react-redux";
-import CampaignActions from './globalState/campaigns/campaignActions';
-import categoriesActions from "./globalState/categories/categoriesActions";
-import MultiSelectCustom from "./MultiSelectCustom";
+import CampaignActions from './../../globalState/campaigns/campaignActions';
+import categoriesActions from "./../../globalState/categories/categoriesActions";
+import MultiSelectEditComponent from "./MultiSelectEditComponent";
 
-export default function FormComponent(props){
-
-    const [isMobile, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", props.isMobile);
-    const [isDesktop, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", props.isDesktop);
+export default function FormComponentEdit({ name, url, isMobile, isDesktop, category, urlFull, closeDialog, id, Categories}){
+    const [isMobileCheck, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", isMobile);
+    const [isDesktopCheck, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", isDesktop);
     const dispatch = useDispatch();
-    const {selectedCategoriesState} = useSelector(state => state.category);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [imageError, setImageError] = useState("");
-    const { categories} = useSelector(state => state.category);
+
     const [selectCategoryError, setSelectCategoryError] = useState("");
     const { register, handleSubmit, formState: { errors }} = useForm({ defaultValues :{
             isMobile,
             isDesktop,
-            name : props.name,
-            category : props.category,
-            url : props.url
+            name,
+            category,
+            url
         }});
     const [image, setImage] = useState(undefined);
 
@@ -41,7 +37,7 @@ export default function FormComponent(props){
     useEffect(() => {
         console.log(createSuccess);
         if(createSuccess)
-            props.closeDialog();
+            closeDialog();
     }, [createSuccess]);
 
     const submit = async formValues => {
@@ -51,34 +47,9 @@ export default function FormComponent(props){
             setSelectCategoryError("A category must be selected.");
             return;
         }
-        if(props.id){
-            //Send edit
-            await dispatch(CampaignActions.editCampaign({...formValues, id : props.id,image, isDesktop, isMobile, category : selectedCategories.map(cat => cat.id).join(',')}));
-            props.closeDialog();
-        } else {
-            //Create
-            if(!image){
-                setImageError("An image is required.");
-                return;
-            }
-
-            dispatch(CampaignActions.createCampaign({...formValues, image, isDesktop, isMobile, category : selectedCategories.map(cat => cat.id).join(',')}));
-        }
+        await dispatch(CampaignActions.editCampaign({...formValues, id,image, isDesktop : isDesktopCheck, isMobile : isMobileCheck, category : selectedCategories.map(cat => cat.id).join(',')}));
+        closeDialog();
     }
-
-    const handleElements = () => {
-        return categories;
-        // if(props.Categories && categories.length > 0){
-        //     props.Categories.map(category => {
-        //         categories.find(cat => cat.id === category.id).isSelected = 1;
-        //     });
-        //     return categories;
-        // } else {
-        //     return categories;
-        // }
-
-    }
-
 
     return <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={6} item>
@@ -93,8 +64,8 @@ export default function FormComponent(props){
             />
         </Grid>
         <Grid xs={12} sm={6} md={6} item>
-            <MultiSelectCustom
-                elements={handleElements()}
+            <MultiSelectEditComponent
+                currentCategories={Categories}
                 setSelectedValues={setSelectedCategories}
                 onAddNew={(data) => dispatch(categoriesActions.createCategory(data))}
                 onDelete={(id) => dispatch(categoriesActions.deleteCategory(id))}
@@ -114,7 +85,7 @@ export default function FormComponent(props){
             />
         </Grid>
         <Grid xs={12} item>
-            <ImageInputComponent image={image} setImage={setImage} hasImage={props.urlFull} />
+            <ImageInputComponent image={image} setImage={setImage} hasImage={urlFull} />
             {imageError && <AlertComponent variant={"error"} message={"An image is required."} />}
         </Grid>
         <Grid xs={12} item>
@@ -125,7 +96,7 @@ export default function FormComponent(props){
             <Button variant="contained"
                     onClick={handleSubmit(submit)}
                     className="primaryBackgroundColor"
-            >{props.id ? "Edit Campaign" : "Create new Campaign"}</Button>
+            >{id ? "Edit Campaign" : "Create new Campaign"}</Button>
         </Grid>
         <Grid item xs={2} style={{ textAlign: 'center'}}>
             {isLoading && <CircularProgress />}

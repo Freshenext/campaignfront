@@ -1,12 +1,13 @@
 import {useEffect, useState} from "react";
 import {Cancel, Close, Image} from "@material-ui/icons";
-import {Button} from "@material-ui/core";
+import {Button, Typography} from "@material-ui/core";
 import AlertComponent from "./AlertComponent";
 
-export default function ImageInputComponent({image, setImage, height = '200px', setError = undefined}){
+export default function ImageInputComponent({image, setImage, height = '200px', setError = undefined, hasImage}){
     const [imageBase64, setImageBase64] = useState(undefined);
     const [imageError, setImageError] = useState({ isError : false, text : ""});
     useEffect(() => {
+        console.log(hasImage);
         if(image){
             base64(image);
             setImageError({ isError: false, text : ''});
@@ -16,7 +17,7 @@ export default function ImageInputComponent({image, setImage, height = '200px', 
     }, [image]);
 
     useEffect(() => {
-        console.log(imageBase64);
+
     }, [imageBase64]);
 
     const handleImageChange = e => {
@@ -53,6 +54,7 @@ export default function ImageInputComponent({image, setImage, height = '200px', 
             ><Cancel fontSize="large"/></div>}
             {!image && <div style={{ flex: "0 1 1px"}}><Image fontSize="large" /></div>}
             {imageBase64 && <img style={{ width: '100%', height: '100%'}} src={imageBase64} alt="base64 img"/>}
+            {hasImage && <Typography>Has image</Typography>}
             <div hidden={image && true}>
                 <Button
                     variant="contained"

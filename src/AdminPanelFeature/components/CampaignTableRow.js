@@ -1,14 +1,15 @@
 import {Button, TableCell, TableRow} from "@material-ui/core";
 import useToggle from "../../shared/hooks/useToggle";
-import CampaignCreateEditDialogComponent from "../../CampaignCreateEditDialogComponent";
-
 import {Cancel, Check} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import campaignActions from "../../globalState/campaigns/campaignActions";
+import CampaignEditDialogComponent from "./CampaignEditDialogComponent";
+import CustomSnackbarComponent from "../../CustomSnackbarComponent";
 
 export default function CampaignTableRow({campaign}){
     const dispatch = useDispatch();
     const [editToggle, setEditToggle] = useToggle();
+    const { editSuccess} = useSelector(state => state.campaign);
     return <TableRow key={campaign.id}>
         <TableCell>{campaign.id}</TableCell>
         <TableCell>{campaign.name}</TableCell>
@@ -18,6 +19,7 @@ export default function CampaignTableRow({campaign}){
         <TableCell>{campaign.isMobile ? <Check /> : <Cancel />}</TableCell>
         <TableCell>
             <img src={"https://campaignapi.francis.center/images/" + campaign.imagePath} className="imageRes" />
+            {/*<img src={"http://localhost:5000/images/" + campaign.imagePath} className="imageRes" />*/}
         </TableCell>
         <TableCell>
             <Button variant='contained'
@@ -36,6 +38,9 @@ export default function CampaignTableRow({campaign}){
                 }}
             >Delete</Button>
         </TableCell>
-        {editToggle && <CampaignCreateEditDialogComponent closeDialog={setEditToggle} campaign={campaign}/>}
+        {editToggle && <CampaignEditDialogComponent closeDialog={setEditToggle} campaign={campaign}/>}
+        {editSuccess && <CustomSnackbarComponent message={"Edit successfully."} autoHideDuration={4000} customFunctionOnHide={() => {
+            dispatch(campaignActions.setEditSuccess(false));
+        }}  />}
     </TableRow>
 }
