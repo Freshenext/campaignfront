@@ -6,7 +6,7 @@ export default function CampaignElementComponent({urlFull, name, url, isMobile, 
     const classes = ['gridFlexed', isMobile === false ? "hideOnMobile" : '', isDesktop === false ? "hideOnDesktop" : ""]
     console.log(isMobile,isDesktop);
     return (
-        <Grid xs={12} sm={6} md={4} lg={3} className={classes.join(' ')}
+        <Grid xs={12} sm={12} md={4} lg={3} className={classes.join(' ')}
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
 

@@ -75,7 +75,7 @@ export default function AdminAreaContainer(){
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    {/*{createSuccess && <CustomSnackbarComponent message={"Campaigns saved successfully"} customFunctionOnHide={() => setCreateSuccess(false)} />}*/}
+                    {createSuccess && <CustomSnackbarComponent message={"Campaigns saved successfully"} customFunctionOnHide={() => dispatch(CampaignActions.setCreateSuccess(false))} />}
                     {/*{deleteSuccess && <CustomSnackbarComponent message={"Campaign deleted successfully"} customFunctionOnHide={() => setDeleteSuccess(false)} />}*/}
                     {/*{editSuccess && <CustomSnackbarComponent message={"Campaign edited successfully"} customFunctionOnHide={() => setEditSuccess(false)} />}*/}
                 </Grid>
