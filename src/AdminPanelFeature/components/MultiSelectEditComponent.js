@@ -53,7 +53,8 @@ export default function MultiSelectEditComponent({setSelectedValues, onAddNew = 
         /* Set categories that are selected */
         currentCategories.map(currentCategory => {
             const categoryFound = [...categories].find(categoryFinder => categoryFinder.id === currentCategory.id);
-            categoryFound.isSelected = true;
+            if(categoryFound)
+                categoryFound.isSelected = true;
         });
         setCategoriesArr(categories);
     }, [])
