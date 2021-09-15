@@ -89,7 +89,7 @@ function DrawerComponent(props) {
                 }}
                 value={categorySearch}
             />
-            <Divider />
+            <Divider style={{ marginBottom: '1em'}} />
             <CategoryListItem name="All campaigns" />
             {categories.filter(category => {
                 if(categorySearch !== ""){
@@ -111,6 +111,20 @@ function DrawerComponent(props) {
             <nav className={classes.drawer} aria-label="mailbox folders">
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
+                    <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: '#644798'}}>
+                        <Toolbar>
+                            <img src="SofiaPulseLogo.png" style={{ height: '100%', width: '100%'}} />
+                            <IconButton
+                                color="inherit"
+                                aria-label="open drawer"
+                                edge="start"
+                                onClick={handleDrawerToggle}
+                                className={classes.menuButton}
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
                     <Drawer
                         container={container}
                         variant="temporary"

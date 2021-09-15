@@ -45,24 +45,27 @@ img.logo {
 }
 
 .listItem {
-  background-color: #644798;
+  background-color: #56388c !important;
   color: white;
   font-weight: bold !important;
   cursor: pointer;
   width: 100%;
+  border-radius: 25px;
 }
 
 .listItemDiv {
   display: block;
-  margin: 0 1em;
-
+  margin: 0.5em 1em;
 }
 
-.listItem.selected {
+
+
+li.selectedListItem {
   background-color: #A791CF !important;
   color: white;
   font-weight: bold !important;
   cursor: pointer;
+  border-radius: 20px;
 }
 
 
@@ -78,7 +81,8 @@ img.logo {
 .imgCampaigns {
   /*max-width: 200px;  */
   width: 100%;
-  height: 400px;
+  height: 110px;
+  border-radius: 10px;
 }
 
 .divCampaign {

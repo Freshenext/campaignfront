@@ -47,6 +47,9 @@ export default function FormComponentEdit({ name, url, isMobile, isDesktop, cate
             setSelectCategoryError("A category must be selected.");
             return;
         }
+        if(isMobileCheck === false && isDesktopCheck === false){
+            return;
+        }
         await dispatch(CampaignActions.editCampaign({...formValues, id,image, isDesktop : isDesktopCheck, isMobile : isMobileCheck, category : selectedCategories.map(cat => cat.id).join(',')}));
         closeDialog();
     }

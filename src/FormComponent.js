@@ -10,6 +10,7 @@ import {useDispatch, useSelector} from "react-redux";
 import CampaignActions from './globalState/campaigns/campaignActions';
 import categoriesActions from "./globalState/categories/categoriesActions";
 import MultiSelectCustom from "./MultiSelectCustom";
+import {isIS} from "@material-ui/core/locale";
 
 export default function FormComponent(props){
 
@@ -49,6 +50,9 @@ export default function FormComponent(props){
         setSelectCategoryError("");
         if(selectedCategories.length <= 0){
             setSelectCategoryError("A category must be selected.");
+            return;
+        }
+        if(isDesktop === false && isMobile === false){
             return;
         }
         if(props.id){

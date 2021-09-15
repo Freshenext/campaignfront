@@ -13,12 +13,12 @@ export default function CategoryListItem({name, selected = false, index = -1, id
     const {selectedCategory} = useSelector(state => state.category);
     const isSelected = selectedCategory.id === id;
     const style = isSelected ? { backgroundColor : "#A791CF !important"} : {};
-    return <div className="listItemDiv" style={{ backgroundColor : "#A791CF"}}>
+    console.log(isSelected);
+    return <div className="listItemDiv">
         <ListItem
-            className="listItem"
+            className={"listItem " + (isSelected === true ? " selectedListItem" : "")}
             onClick={_ => dispatch(categoriesActions.setSelectedCategory({name, id}))}
             selected={isSelected}
-
         >
             <ListItemText primary={name} />
         </ListItem>
