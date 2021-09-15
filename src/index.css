@@ -45,13 +45,21 @@ img.logo {
 }
 
 .listItem {
-  background-color: aliceblue;
+  background-color: #644798;
+  color: white;
   font-weight: bold !important;
   cursor: pointer;
+  width: 100%;
+}
+
+.listItemDiv {
+  display: block;
+  margin: 0 1em;
+
 }
 
 .listItem.selected {
-  background-color: lightblue;
+  background-color: #A791CF !important;
   color: white;
   font-weight: bold !important;
   cursor: pointer;

@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up('sm')]: {
             width: drawerWidth,
             flexShrink: 0,
-        },
+        }
     },
     appBar: {
         [theme.breakpoints.up('sm')]: {
@@ -45,12 +45,14 @@ const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
+        backgroundColor: '#644798'
     },
     content: {
         flexGrow: 1,
         padding: theme.spacing(3),
     },
 }));
+
 
 function DrawerComponent(props) {
     const { window } = props;
@@ -72,16 +74,16 @@ function DrawerComponent(props) {
     };
 
     const drawer = (
-        <div>
+        <div style={{ overflow: 'hidden'}}>
             <div className={classes.toolbar}>
-                <img src="logo.png" className="logo" />
+                <img src="SofiaPulseLogo.png" className="logo" />
             </div>
             <Divider />
             <TextField
                 id="standard-basic"
                 label="Search for Categories"
                 variant="outlined"
-                style={{ margin: '1em'}}
+                style={{ margin: '1em', color: "white !important"}}
                 onChange={(e) => {
                     setCategorySearch(e.target.value);
                 }}
@@ -105,22 +107,7 @@ function DrawerComponent(props) {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
-                        className={classes.menuButton}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <Typography variant="h6" noWrap>
 
-                    </Typography>
-                </Toolbar>
-            </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
