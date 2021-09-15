@@ -23,6 +23,7 @@ export default function BookDemoFormComponent(){
                 <TextField
                     label="Your Email"
                     variant="outlined"
+                    className="textFieldCustom"
                     InputLabelProps={{ style : { color: '#E0DEE4'}}}
                     InputProps={{ style : { borderRadius: '10px', borderColor: '#8667BD', color : 'white'}}}
                 />
@@ -31,7 +32,7 @@ export default function BookDemoFormComponent(){
                 variant="contained"
                 style={{ marginTop: '1em', textTransform: "unset",
                 borderRadius: '10px', fontSize: '1rem', padding: '0.5em'}}
-                className="primaryBackgroundColor"
+                className="primaryBackgroundColor textFieldCustom"
                 fullWidth
             >Book a demo</Button>
         </Paper>

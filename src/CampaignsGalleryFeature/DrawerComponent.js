@@ -18,7 +18,7 @@ import campaignActions from "../globalState/campaigns/campaignActions";
 import categoriesActions from "../globalState/categories/categoriesActions";
 import BookDemoFormComponent from "./components/BookDemoFormComponent";
 
-const drawerWidth = 240;
+const drawerWidth = 253;
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -82,9 +82,8 @@ function DrawerComponent(props) {
             <div className={classes.toolbar}>
                 <img src="SofiaPulseLogo.png" className="logo" />
             </div>
-            <Divider />
             <TextField
-                id="standard-basic"
+                id="searchCategoryInput"
                 label="Search"
                 InputLabelProps={{ style : { color: '#8667BD'}}}
                 InputProps={{ style : { borderRadius: '10px', color : 'white'}}}
@@ -95,7 +94,6 @@ function DrawerComponent(props) {
                 }}
                 value={categorySearch}
             />
-            <Divider style={{ marginBottom: '1em'}} />
             <CategoryListItem name="All campaigns" />
             {categories.filter(category => {
                 if(categorySearch !== ""){

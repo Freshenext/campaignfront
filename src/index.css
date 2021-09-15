@@ -39,13 +39,14 @@ code {
 }
 
 img.logo {
-  margin: 2em 0;
+  margin: 4em 0em 1em;
   padding: 1em 1.5em;
   width: 100%;
 }
 
 .listItem {
-  background-color: #56388c !important;
+  /*background-color: #56388c !important;*/
+  background-color: #7153A8 !important;
   color: white;
   font-weight: bold !important;
   cursor: pointer;
@@ -53,9 +54,17 @@ img.logo {
   border-radius: 10px;
 }
 
+#searchCategoryInput + fieldset, .textFieldCustom + fieldset{
+  border-color: #8667BD;
+}
+
 .listItemDiv {
   display: block;
   margin: 0.5em 1em;
+}
+
+li.listItem:hover {
+  background-color: #6A4F9B !important;
 }
 
 
@@ -68,10 +77,6 @@ li.selectedListItem {
   border-radius: 10px;
 }
 
-
-.listItem span {
-  font-weight: bold !important;
-}
 
 .listItem:hover {
   background-color: #4181f6;
