@@ -16,7 +16,7 @@ export default function BookDemoFormComponent(){
                     label="Your Name"
                     variant="outlined"
                     InputLabelProps={{ style : { color: '#E0DEE4'}}}
-                    InputProps={{ style : { borderRadius: '10px'}}}
+                    InputProps={{ style : { borderRadius: '10px', color : 'white'}}}
                 />
             </Box>
             <Box marginTop={1}>
@@ -24,7 +24,7 @@ export default function BookDemoFormComponent(){
                     label="Your Email"
                     variant="outlined"
                     InputLabelProps={{ style : { color: '#E0DEE4'}}}
-                    InputProps={{ style : { borderRadius: '10px', borderColor: '#8667BD'}}}
+                    InputProps={{ style : { borderRadius: '10px', borderColor: '#8667BD', color : 'white'}}}
                 />
             </Box>
             <Button

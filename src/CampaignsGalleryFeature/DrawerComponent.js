@@ -67,8 +67,11 @@ function DrawerComponent(props) {
     useEffect(() => {
         dispatch(campaignActions.fetchCampaigns());
         dispatch(categoriesActions.fetchCategories());
-        console.log(categories);
     }, []);
+
+    useEffect(() => {
+        categoriesActions.setCategorySearch(categorySearch);
+    }, [categorySearch])
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -84,7 +87,7 @@ function DrawerComponent(props) {
                 id="standard-basic"
                 label="Search"
                 InputLabelProps={{ style : { color: '#8667BD'}}}
-                InputProps={{ style : { borderRadius: '10px'}}}
+                InputProps={{ style : { borderRadius: '10px', color : 'white'}}}
                 variant="outlined"
                 style={{ margin: '1em', color: "white !important"}}
                 onChange={(e) => {

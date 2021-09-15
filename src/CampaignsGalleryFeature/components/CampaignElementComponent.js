@@ -27,7 +27,7 @@ export default function CampaignElementComponent({urlFull, name, url, isMobile, 
                     <span>{name}</span>
                 </Box>
             </div>
-            {isHovered && <div className={"divHiddenCampaign divHiddenOpacity hideOnMobile"}>
+            {false && <div className={"divHiddenCampaign divHiddenOpacity hideOnMobile"}>
             </div>
             }
 

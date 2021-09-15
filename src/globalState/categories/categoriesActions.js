@@ -1,14 +1,21 @@
 import customAxios from "../../customAxios";
 import {boostrapAxiosState, getFormData} from "../../shared/utilities";
+import store from "../storeRedux";
 
 const defaultActions = boostrapAxiosState(undefined, 'category')[2];
+
+function setCategorySearch(text){
+    store.dispatch({
+        type : "category/SET_SEARCH_CATEGORY",
+        payload : text
+    });
+}
 
 function fetchCategories(){
     return dispatch => {
         dispatch(defaultActions.setLoading(true));
         customAxios.get('/category')
             .then(response => {
-                console.log(response.data);
                 dispatch({ type : "category/SET_CATEGORIES", payload : response.data});
             })
             .catch(err => {
@@ -60,7 +67,6 @@ function deleteCategory(id){
 }
 
 function setSelectedCategory(selectedCategory){
-    console.log("WTF");
     return {
         'type' : 'category/SET_SELECTED_CATEGORY',
         payload : selectedCategory
@@ -72,6 +78,7 @@ const categoryActions = {
     fetchCategories,
     createCategory,
     deleteCategory,
-    setSelectedCategory
+    setSelectedCategory,
+    setCategorySearch
 }
 export default categoryActions;

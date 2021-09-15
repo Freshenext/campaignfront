@@ -5,20 +5,28 @@ import CampaignElementComponent from "./CampaignsGalleryFeature/components/Campa
 import {useDispatch, useSelector} from "react-redux";
 import campaignActions from "./globalState/campaigns/campaignActions";
 export default function CampaignContainerComponent(){
-    const { campaign : {campaigns}, category : { selectedCategory }} = useSelector(state => state);
+    const { campaign : {campaigns}, category : { selectedCategory, categorySearch }} = useSelector(state => state);
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(campaignActions.fetchCampaigns());
     }, []);
 
+    useEffect(() => {
+        console.log(categorySearch);
+    },[categorySearch]);
+
     return <Grid container>
         {campaigns.filter(campaign => {
+            var isTrue = false;
             if(Object.keys(selectedCategory).length > 0 && selectedCategory.id !== undefined){
                 if(campaign.Categories.length > 0){
-                    return campaign.Categories.filter(cat => selectedCategory.id === cat.id).length > 0;
+                    isTrue = campaign.Categories.filter(cat => selectedCategory.id === cat.id).length > 0;
                 }
-            } else return true;
+            } else if (campaign.name.toLowerCase().includes(categorySearch.toLowerCase())){
+                isTrue =  true;
+            }
+            return isTrue;
         })
             .map(campaign => {
             return <CampaignElementComponent {...campaign} />
