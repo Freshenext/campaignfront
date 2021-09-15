@@ -11,11 +11,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 
 import CategoryListItem from "./components/CategoryListItem";
-import {TextField} from "@material-ui/core";
+import {Box, TextField} from "@material-ui/core";
 import CampaignContainerComponent from "../CampaignContainerComponent";
 import {useDispatch, useSelector} from "react-redux";
 import campaignActions from "../globalState/campaigns/campaignActions";
 import categoriesActions from "../globalState/categories/categoriesActions";
+import BookDemoFormComponent from "./components/BookDemoFormComponent";
 
 const drawerWidth = 240;
 
@@ -74,14 +75,16 @@ function DrawerComponent(props) {
     };
 
     const drawer = (
-        <div style={{ overflow: 'hidden'}}>
+        <div >
             <div className={classes.toolbar}>
                 <img src="SofiaPulseLogo.png" className="logo" />
             </div>
             <Divider />
             <TextField
                 id="standard-basic"
-                label="Search for Categories"
+                label="Search"
+                InputLabelProps={{ style : { color: '#8667BD'}}}
+                InputProps={{ style : { borderRadius: '10px'}}}
                 variant="outlined"
                 style={{ margin: '1em', color: "white !important"}}
                 onChange={(e) => {
@@ -99,6 +102,7 @@ function DrawerComponent(props) {
                 .map((category, index) => {
                 return <CategoryListItem {...category} index={index}/>
             })}
+            <BookDemoFormComponent />
         </div>
     );
 
@@ -113,16 +117,12 @@ function DrawerComponent(props) {
                 <Hidden smUp implementation="css">
                     <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: '#644798'}}>
                         <Toolbar>
-                            <img src="SofiaPulseLogo.png" style={{ height: '100%', width: '100%'}} />
-                            <IconButton
-                                color="inherit"
-                                aria-label="open drawer"
-                                edge="start"
-                                onClick={handleDrawerToggle}
-                                className={classes.menuButton}
-                            >
+                            <Box display="flex" flexGrow="1" justifyContent="center">
+                                <img src="SofiaPulseLogo.png" style={{ height: '32px', width: '215px'}} />
+                            </Box>
+                            <Box position="absolute" right={12} onClick={handleDrawerToggle}>
                                 <MenuIcon />
-                            </IconButton>
+                            </Box>
                         </Toolbar>
                     </AppBar>
                     <Drawer
