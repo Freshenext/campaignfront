@@ -50,7 +50,7 @@ img.logo {
   font-weight: bold !important;
   cursor: pointer;
   width: 100%;
-  border-radius: 25px;
+  border-radius: 10px;
 }
 
 .listItemDiv {
@@ -65,7 +65,7 @@ li.selectedListItem {
   color: white;
   font-weight: bold !important;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 
 
@@ -85,9 +85,10 @@ li.selectedListItem {
   border-radius: 10px;
 }
 
-@media screen and (max-width: 600px){
+@media screen and (min-width: 960px){
   .imgCampaigns {
-    width: 152px;
+    width: 163px;
+    height: 110px;
   }
 }
 
