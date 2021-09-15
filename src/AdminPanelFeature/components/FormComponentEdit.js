@@ -11,6 +11,7 @@ import MultiSelectEditComponent from "./MultiSelectEditComponent";
 
 export default function FormComponentEdit({ name, url, isMobile, isDesktop, category, urlFull, closeDialog, id, Categories}){
     const [isMobileCheck, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", isMobile);
+    const [checkboxError, setCheckboxError] = useState("");
     const [isDesktopCheck, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", isDesktop);
     const dispatch = useDispatch();
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -42,12 +43,14 @@ export default function FormComponentEdit({ name, url, isMobile, isDesktop, cate
 
     const submit = async formValues => {
         setImageError("");
+        setCheckboxError("");
         setSelectCategoryError("");
         if(selectedCategories.length <= 0){
             setSelectCategoryError("A category must be selected.");
             return;
         }
         if(isMobileCheck === false && isDesktopCheck === false){
+            setCheckboxError("One checkbox must be selected.");
             return;
         }
         await dispatch(CampaignActions.editCampaign({...formValues, id,image, isDesktop : isDesktopCheck, isMobile : isMobileCheck, category : selectedCategories.map(cat => cat.id).join(',')}));
@@ -94,6 +97,7 @@ export default function FormComponentEdit({ name, url, isMobile, isDesktop, cate
         <Grid xs={12} item>
             {IsDesktopCheckBoxComponent}
             {IsMobileCheckBoxComponent}
+            {checkboxError !== "" && <AlertComponent variant="error" message={checkboxError} /> }
         </Grid>
         <Grid item xs={12}>
             <Button variant="contained"

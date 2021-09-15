@@ -6,7 +6,6 @@ export default function BookDemoFormComponent(){
         width="100%"
         textAlign="center"
         marginTop={10}
-
     >
         <Paper style={{ backgroundColor: "#563A88", color : 'white', padding: '1em'}}>
             <Box>

@@ -111,7 +111,7 @@ export default function MultiSelectCustom({elements = [], setSelectedValues, onA
                     helperText="i.e 600x800, robots"
                     fullWidth
                     InputProps={{
-                        endAdornment : <InputAdornment position={"end"} ><AddCircle /></InputAdornment>
+                        endAdornment : <InputAdornment style={{ cursor: 'pointer'}} position={"end"} onClick={() => handleInsertCategoryEnter({ key : "Enter"})} ><AddCircle /></InputAdornment>
                     }}
                     value={insertCategory.name}
                     onChange={handleInsertCategory}

@@ -15,6 +15,7 @@ import {isIS} from "@material-ui/core/locale";
 export default function FormComponent(props){
 
     const [isMobile, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", props.isMobile);
+    const [checkboxError, setCheckboxError] = useState("");
     const [isDesktop, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", props.isDesktop);
     const dispatch = useDispatch();
     const {selectedCategoriesState} = useSelector(state => state.category);
@@ -47,12 +48,14 @@ export default function FormComponent(props){
 
     const submit = async formValues => {
         setImageError("");
+        setCheckboxError("");
         setSelectCategoryError("");
         if(selectedCategories.length <= 0){
             setSelectCategoryError("A category must be selected.");
             return;
         }
         if(isDesktop === false && isMobile === false){
+            setCheckboxError("One checkbox must be selected.");
             return;
         }
         if(props.id){
@@ -124,6 +127,7 @@ export default function FormComponent(props){
         <Grid xs={12} item>
             {IsDesktopCheckBoxComponent}
             {IsMobileCheckBoxComponent}
+            {checkboxError !== "" && <AlertComponent variant="error" message={checkboxError} /> }
         </Grid>
         <Grid item xs={12}>
             <Button variant="contained"
