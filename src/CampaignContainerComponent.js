@@ -12,10 +12,6 @@ export default function CampaignContainerComponent(){
         dispatch(campaignActions.fetchCampaigns());
     }, []);
 
-    useEffect(() => {
-        console.log(categorySearch);
-    },[categorySearch]);
-
     return <Grid container>
         {campaigns.filter(campaign => {
             var isTrue = false;

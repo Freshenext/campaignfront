@@ -82,18 +82,21 @@ function DrawerComponent(props) {
             <div className={classes.toolbar}>
                 <img src="SofiaPulseLogo.png" className="logo" />
             </div>
-            <TextField
-                id="searchCategoryInput"
-                label="Search"
-                InputLabelProps={{ style : { color: '#8667BD'}}}
-                InputProps={{ style : { borderRadius: '10px', color : 'white'}}}
-                variant="outlined"
-                style={{ margin: '1em', color: "white !important"}}
-                onChange={(e) => {
-                    setCategorySearch(e.target.value);
-                }}
-                value={categorySearch}
-            />
+            <Box width="100%" paddingLeft="1em" paddingRight="1em" marginBottom="30px">
+                <TextField
+                    id="searchCategoryInput"
+                    label="Search"
+                    InputLabelProps={{ style : { color: '#8667BD'}}}
+                    InputProps={{ style : { borderRadius: '10px', color : 'white'}}}
+                    variant="outlined"
+                    style={{ color: "white !important"}}
+                    onChange={(e) => {
+                        setCategorySearch(e.target.value);
+                    }}
+                    value={categorySearch}
+                    fullWidth
+                />
+            </Box>
             <CategoryListItem name="All campaigns" />
             {categories.filter(category => {
                 if(categorySearch !== ""){
