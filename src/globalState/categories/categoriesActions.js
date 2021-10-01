@@ -1,6 +1,6 @@
-import customAxios from "../../customAxios";
+import customAxios from "../../shared/customAxios";
 import {boostrapAxiosState, getFormData} from "../../shared/utilities";
-import store from "../storeRedux";
+import store, {dispatch} from "../storeRedux";
 
 const defaultActions = boostrapAxiosState(undefined, 'category')[2];
 
@@ -29,6 +29,10 @@ function fetchCategories(){
                 dispatch(defaultActions.setLoading(false))
             });
     }
+}
+
+export function setCategories(categories){
+    dispatch({ type : 'category/SET_CATEGORIES', payload : categories });
 }
 
 function createCategory(newCategory){

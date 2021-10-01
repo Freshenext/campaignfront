@@ -8,15 +8,17 @@ import {useDispatch, useSelector} from "react-redux";
 import CampaignActions from './../../globalState/campaigns/campaignActions';
 import categoriesActions from "./../../globalState/categories/categoriesActions";
 import MultiSelectEditComponent from "./MultiSelectEditComponent";
+import {fetchCategories} from "../../globalState/categories/categoriesParametersActions";
+import {Autocomplete} from "@material-ui/lab";
 
-export default function FormComponentEdit({ name, url, isMobile, isDesktop, category, urlFull, closeDialog, id, Categories}){
+export default function FormComponentEdit({ name, url, isMobile, isDesktop, category, urlFull, closeDialog, id, CampaignCategories}){
     const [isMobileCheck, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", isMobile);
     const [checkboxError, setCheckboxError] = useState("");
     const [isDesktopCheck, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", isDesktop);
     const dispatch = useDispatch();
-    const [selectedCategories, setSelectedCategories] = useState([]);
+    const [selectedCategories, setSelectedCategories] = useState(CampaignCategories.map(Category => Category.categoryName));
     const [imageError, setImageError] = useState("");
-
+    const { categories } = useSelector(state => state.category);
     const [selectCategoryError, setSelectCategoryError] = useState("");
     const { register, handleSubmit, formState: { errors }} = useForm({ defaultValues :{
             isMobile,
@@ -28,7 +30,7 @@ export default function FormComponentEdit({ name, url, isMobile, isDesktop, cate
     const [image, setImage] = useState(undefined);
 
     useEffect(() => {
-        dispatch(categoriesActions.fetchCategories());
+        fetchCategories();
     }, []);
 
     const {
@@ -40,6 +42,12 @@ export default function FormComponentEdit({ name, url, isMobile, isDesktop, cate
         if(createSuccess)
             closeDialog();
     }, [createSuccess]);
+
+    const handleCategoryChange = (event, value) => {
+        setSelectCategoryError('');
+        setSelectedCategories(value);
+    }
+
 
     const submit = async formValues => {
         setImageError("");
@@ -70,13 +78,22 @@ export default function FormComponentEdit({ name, url, isMobile, isDesktop, cate
             />
         </Grid>
         <Grid xs={12} sm={6} md={6} item>
-            <MultiSelectEditComponent
-                currentCategories={Categories}
-                setSelectedValues={setSelectedCategories}
-                onAddNew={(data) => dispatch(categoriesActions.createCategory(data))}
-                onDelete={(id) => dispatch(categoriesActions.deleteCategory(id))}
+            <Autocomplete
+                renderInput={(params) =>
+                    <TextField
+                        {...params}
+                        label='Type category to search...'
+                        variant='outlined'
+                        {...(selectCategoryError !== '' ? { error : true, helperText : selectCategoryError } : {})}
+                    />}
+                id='categories-select'
+                options={categories}
+                getOptionLabel={option => option}
+                onChange={handleCategoryChange}
+                multiple
+                disableCloseOnSelect
+                defaultValue={selectedCategories}
             />
-            {selectCategoryError !== "" && <AlertComponent variant="error" message={selectCategoryError} />}
         </Grid>
         <Grid xs={12} sm={12} md={12} item>
             <TextField

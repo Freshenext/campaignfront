@@ -17,6 +17,8 @@ import {useDispatch, useSelector} from "react-redux";
 import campaignActions from "../globalState/campaigns/campaignActions";
 import categoriesActions from "../globalState/categories/categoriesActions";
 import BookDemoFormComponent from "./components/BookDemoFormComponent";
+import {useParams} from "react-router-dom";
+import {fetchClientCampaignsCategories} from "../globalState/client/clientActions";
 
 const drawerWidth = 253;
 
@@ -62,11 +64,17 @@ function DrawerComponent(props) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const { category : { categories } } = useSelector(state => state);
     const [categorySearch, setCategorySearch] = useState("");
-    const dispatch = useDispatch();
+    const {clientUrl} = useParams();
+    console.log(clientUrl);
 
     useEffect(() => {
-        dispatch(campaignActions.fetchCampaigns());
-        dispatch(categoriesActions.fetchCategories());
+        if(clientUrl){
+            fetchClientCampaignsCategories(clientUrl);
+        } else {
+            campaignActions.fetchCampaigns(clientUrl);
+            categoriesActions.fetchCategories();
+        }
+
     }, []);
 
     useEffect(() => {

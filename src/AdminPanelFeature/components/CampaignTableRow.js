@@ -13,7 +13,7 @@ export default function CampaignTableRow({campaign}){
     return <TableRow key={campaign.id}>
         <TableCell>{campaign.id}</TableCell>
         <TableCell>{campaign.name}</TableCell>
-        <TableCell>{campaign.Categories && campaign.Categories.map(Category => Category.name).join(',')}</TableCell>
+        <TableCell>{campaign.CampaignCategories && campaign.CampaignCategories.map(Category => Category.categoryName).join(',')}</TableCell>
         <TableCell>{campaign.url}</TableCell>
         <TableCell>{campaign.isDesktop ? <Check /> : <Cancel />}</TableCell>
         <TableCell>{campaign.isMobile ? <Check /> : <Cancel />}</TableCell>

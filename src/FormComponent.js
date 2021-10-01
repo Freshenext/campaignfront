@@ -8,21 +8,25 @@ import ImageInputComponent from "./shared/components/ImageInputComponent";
 import useCheckbox from "./shared/components/useCheckbox";
 import {useDispatch, useSelector} from "react-redux";
 import CampaignActions from './globalState/campaigns/campaignActions';
-import categoriesActions from "./globalState/categories/categoriesActions";
 import MultiSelectCustom from "./MultiSelectCustom";
 import {isIS} from "@material-ui/core/locale";
+import {fetchCategories} from "./globalState/categories/categoriesParametersActions";
+import {Autocomplete} from "@material-ui/lab";
 
-export default function FormComponent(props){
-
+export default function FormComponent({...props}){
     const [isMobile, IsMobileCheckBoxComponent] = useCheckbox("Is Mobile", props.isMobile);
     const [checkboxError, setCheckboxError] = useState("");
     const [isDesktop, IsDesktopCheckBoxComponent] = useCheckbox("Is Desktop", props.isDesktop);
     const dispatch = useDispatch();
-    const {selectedCategoriesState} = useSelector(state => state.category);
-    const [selectedCategories, setSelectedCategories] = useState([]);
     const [imageError, setImageError] = useState("");
-    const { categories} = useSelector(state => state.category);
-    const [selectCategoryError, setSelectCategoryError] = useState("");
+    const {categories} = useSelector(state => state.category);
+    const [selectCategoryError, setSelectCategoryError] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState([]);
+
+    const handleCategoryChange = (event, value) => {
+        setSelectCategoryError('');
+        setSelectedCategory(value);
+    }
     const { register, handleSubmit, formState: { errors }} = useForm({ defaultValues :{
             isMobile,
             isDesktop,
@@ -33,7 +37,7 @@ export default function FormComponent(props){
     const [image, setImage] = useState(undefined);
 
     useEffect(() => {
-        dispatch(categoriesActions.fetchCategories());
+        fetchCategories();
     }, []);
 
     const {
@@ -50,7 +54,7 @@ export default function FormComponent(props){
         setImageError("");
         setCheckboxError("");
         setSelectCategoryError("");
-        if(selectedCategories.length <= 0){
+        if(selectedCategory.length <= 0){
             setSelectCategoryError("A category must be selected.");
             return;
         }
@@ -60,7 +64,7 @@ export default function FormComponent(props){
         }
         if(props.id){
             //Send edit
-            await dispatch(CampaignActions.editCampaign({...formValues, id : props.id,image, isDesktop, isMobile, category : selectedCategories.map(cat => cat.id).join(',')}));
+            await dispatch(CampaignActions.editCampaign({...formValues, id : props.id,image, isDesktop, isMobile, category : selectedCategory}));
             props.closeDialog();
         } else {
             //Create
@@ -68,24 +72,9 @@ export default function FormComponent(props){
                 setImageError("An image is required.");
                 return;
             }
-
-            dispatch(CampaignActions.createCampaign({...formValues, image, isDesktop, isMobile, category : selectedCategories.map(cat => cat.id).join(',')}));
+            CampaignActions.createCampaign({...formValues, image, isDesktop, isMobile, category : selectedCategory.join(',')})
         }
     }
-
-    const handleElements = () => {
-        return categories;
-        // if(props.Categories && categories.length > 0){
-        //     props.Categories.map(category => {
-        //         categories.find(cat => cat.id === category.id).isSelected = 1;
-        //     });
-        //     return categories;
-        // } else {
-        //     return categories;
-        // }
-
-    }
-
 
     return <Grid container spacing={3}>
         <Grid xs={12} sm={6} md={6} item>
@@ -99,14 +88,23 @@ export default function FormComponent(props){
                 {...(errors.name ? { error : true, helperText : "Name is required"} : {})}
             />
         </Grid>
-        <Grid xs={12} sm={6} md={6} item>
-            <MultiSelectCustom
-                elements={handleElements()}
-                setSelectedValues={setSelectedCategories}
-                onAddNew={(data) => dispatch(categoriesActions.createCategory(data))}
-                onDelete={(id) => dispatch(categoriesActions.deleteCategory(id))}
+        <Grid xs={12} sm={12} md={12} item>
+            <Autocomplete
+                renderInput={(params) =>
+                    <TextField
+                        {...params}
+                        label='Type category to search...'
+                        variant='outlined'
+                        {...(selectCategoryError !== '' ? { error : true, helperText : selectCategoryError } : {})}
+                    />}
+                id='categories-select'
+                options={categories}
+                getOptionLabel={option => option}
+                onChange={handleCategoryChange}
+                multiple
+                disableCloseOnSelect
+
             />
-            {selectCategoryError !== "" && <AlertComponent variant="error" message={selectCategoryError} />}
         </Grid>
         <Grid xs={12} sm={12} md={12} item>
             <TextField

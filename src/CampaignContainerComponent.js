@@ -6,10 +6,9 @@ import {useDispatch, useSelector} from "react-redux";
 import campaignActions from "./globalState/campaigns/campaignActions";
 export default function CampaignContainerComponent(){
     const { campaign : {campaigns}, category : { selectedCategory, categorySearch }} = useSelector(state => state);
-    const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(campaignActions.fetchCampaigns());
+        campaignActions.fetchCampaigns();
     }, []);
 
     return <Grid container>

@@ -1,10 +1,10 @@
-import customAxios from "../../customAxios";
+import customAxios from "../../shared/customAxios";
 import {boostrapAxiosState, getFormData} from "../../shared/utilities";
+import {dispatch} from "../storeRedux";
 
 const defaultActions = boostrapAxiosState(undefined, 'campaign')[2];
 
 function fetchCampaigns(){
-    return dispatch => {
         dispatch(defaultActions.setLoading(true));
         customAxios.get('/campaigns')
             .then(response => {
@@ -20,11 +20,21 @@ function fetchCampaigns(){
             .finally(() => {
                 dispatch(defaultActions.setLoading(false))
             });
-    }
+}
+
+function fetchClientCampaigns(clientUrl){
+    dispatch(defaultActions.setLoading(true));
+    customAxios.get(`/campaigns/${clientUrl}`)
+        .then((data) => {
+            setCampaigns(data)
+        })
+}
+
+export function setCampaigns(campaigns){
+    dispatch({ type : "campaign/SET_CAMPAIGNS", payload : campaigns});
 }
 
 function createCampaign(newCampaign){
-    return dispatch => {
         dispatch(defaultActions.setLoading(true));
         const formData = getFormData(newCampaign);
         return customAxios.post('/campaigns', formData)
@@ -40,7 +50,6 @@ function createCampaign(newCampaign){
             .finally(() => {
                 dispatch(defaultActions.setLoading(false));
             })
-    }
 }
 
 function editCampaign(campaign){
@@ -74,6 +83,7 @@ const actions = {
     fetchCampaigns,
     createCampaign,
     deleteCampaign,
-    editCampaign
+    editCampaign,
+    fetchClientCampaigns
 }
 export default actions;

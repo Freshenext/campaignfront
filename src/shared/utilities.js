@@ -1,5 +1,3 @@
-import customAxios from "../customAxios";
-
 export function boostrapAxiosState(state = undefined, nameOfObject = ''){
     const stateObjects = {
         error : "",
@@ -118,4 +116,12 @@ export function getFormData(object){
         else formData.append(key, object[key]);
         return formData;
     }, new FormData());
+}
+
+export function returnAxiosPromiseError(error){
+    let errorMessage = error.toString();
+    if(error.response?.data?.error){
+        errorMessage += `: ${error.response.data.error}`;
+    }
+    return Promise.reject(errorMessage);
 }
