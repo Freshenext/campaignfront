@@ -1,16 +1,16 @@
 import {Button, CircularProgress, Grid, Snackbar, TextField, Typography} from "@material-ui/core";
 import {useEffect, useState} from "react";
-import useStore from "./globalState/store";
-import AlertComponent from "./shared/components/AlertComponent";
-import CustomSnackbarComponent from "./CustomSnackbarComponent";
+import useStore from "../../../globalState/store";
+import AlertComponent from "../../../shared/components/AlertComponent";
+import CustomSnackbarComponent from "../../../CustomSnackbarComponent";
 import {useForm} from 'react-hook-form';
-import ImageInputComponent from "./shared/components/ImageInputComponent";
-import useCheckbox from "./shared/components/useCheckbox";
+import ImageInputComponent from "../../../shared/components/ImageInputComponent";
+import useCheckbox from "../../../shared/components/useCheckbox";
 import {useDispatch, useSelector} from "react-redux";
-import CampaignActions from './globalState/campaigns/campaignActions';
-import MultiSelectCustom from "./MultiSelectCustom";
+import CampaignActions from '../../../globalState/campaigns/campaignActions';
+import MultiSelectCustom from "../../../MultiSelectCustom";
 import {isIS} from "@material-ui/core/locale";
-import {fetchCategories} from "./globalState/categories/categoriesParametersActions";
+import {fetchCategories} from "../../../globalState/categories/categoriesParametersActions";
 import {Autocomplete} from "@material-ui/lab";
 
 export default function FormComponent({...props}){

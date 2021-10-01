@@ -70,11 +70,11 @@ function deleteCategory(id){
     }
 }
 
-function setSelectedCategory(selectedCategory){
-    return {
+function setSelectedCategory(selectedCategory) {
+    dispatch({
         'type' : 'category/SET_SELECTED_CATEGORY',
         payload : selectedCategory
-    }
+    });
 }
 
 const categoryActions = {

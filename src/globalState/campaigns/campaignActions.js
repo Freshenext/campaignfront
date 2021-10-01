@@ -53,15 +53,13 @@ function createCampaign(newCampaign){
 }
 
 function editCampaign(campaign){
-    return dispatch => {
         dispatch(defaultActions.setLoading(true));
         const formData = getFormData(campaign);
         return customAxios.put(`/campaigns/${campaign.id}`, formData)
             .then(() => {
                 dispatch(defaultActions.setEditSuccess(true));
-                dispatch(fetchCampaigns());
+                fetchCampaigns();
             })
-    }
 }
 
 function deleteCampaign(id){

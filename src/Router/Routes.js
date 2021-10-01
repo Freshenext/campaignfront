@@ -1,7 +1,7 @@
 import AuthRoutes from "../AuthRoutes";
 import {Route, Switch} from "react-router-dom";
 import LoginContainer from "../AuthRoutes/LoginContainer";
-import DrawerComponent from "../CampaignsGalleryFeature/DrawerComponent";
+import CampaignGalleryContainer from "../CampaignsGalleryFeature/CampaignGalleryContainer";
 
 export default function Routes({ location }){
     if(location.pathname.includes('/admin')){
@@ -10,7 +10,7 @@ export default function Routes({ location }){
 
     return <Switch>
         <Route path='/login' component={LoginContainer} exact />
-        <Route path='/:clientUrl' exact component={DrawerComponent} />
-        <Route path="/" component={DrawerComponent} />
+        <Route path='/:clientUrl' exact component={CampaignGalleryContainer} />
+        <Route path="/" component={CampaignGalleryContainer} />
     </Switch>
 }

@@ -2,7 +2,6 @@ import {Box, Button, Paper, TextField} from "@material-ui/core";
 
 export default function BookDemoFormComponent(){
     return <Box
-        position="absolute"
         width="100%"
         textAlign="center"
         marginTop={10}

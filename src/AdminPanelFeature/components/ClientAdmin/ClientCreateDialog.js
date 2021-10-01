@@ -12,7 +12,7 @@ export default function ClientCreateDialog({ open = true, toggle }){
 
     const onFormSubmit = async (data) => {
         toggleLoading();
-        insertClient(data)
+        insertClient({ ...data, url : data.url.toLowerCase()})
             .then(() => {
                 toggle();
             })
@@ -48,6 +48,7 @@ export default function ClientCreateDialog({ open = true, toggle }){
                                 fullWidth
                                 {...register('url', { required : true})}
                                 {...(errors.url ? { error : true, helperText : "URL is required"} : {})}
+                                className='textTransformLowerCase'
                             />
                         </Box>
                     </Grid>

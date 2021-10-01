@@ -2,10 +2,10 @@ import axios from 'axios';
 import storeRedux from "../globalState/storeRedux";
 
 // dev
-const baseURL = 'http://localhost:5000';
+// const baseURL = 'http://localhost:5000';
 
 // prod
-//const baseURL = "https://campaignapi.francis.center/"
+const baseURL = "https://campaignapi.francis.center/"
 
 const getToken = () => {
     const token = storeRedux.getState().auth?.access_token;

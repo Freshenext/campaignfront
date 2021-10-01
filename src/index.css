@@ -162,3 +162,6 @@ li.selectedListItem {
   }
 }
 
+.textTransformLowerCase input {
+  text-transform: lowercase !important;
+}

@@ -1,4 +1,4 @@
-import CampaignCreateEditDialogComponent from "../../../CampaignCreateEditDialogComponent";
+import CampaignCreateEditDialogComponent from "./CampaignCreateEditDialogComponent";
 import {
     Button,
     CircularProgress, Container,

@@ -4,13 +4,15 @@ import useLoading from "../../../shared/hooks/useLoading";
 import {updateClient} from "../../../globalState/client/clientActions";
 import useRequest from "../../../shared/hooks/useRequest";
 import AlertComponent from "../../../shared/components/AlertComponent";
+import {useEffect} from "react";
 
 export default function ClientEditDialog({ id, name, url, open = true, toggle }){
     const { register, handleSubmit, formState : { errors }} = useForm({ defaultValues : { name, url }});
     const [request, requestObj] = useRequest();
+
     const onFormSubmit = (data) => {
         requestObj.setRequestLoading();
-        updateClient({ id, ...data})
+        updateClient({ ...data, id, url : data.url.toLowerCase()})
             .then(() => {
                 requestObj.setRequestSuccess();
                 toggle();
@@ -45,6 +47,7 @@ export default function ClientEditDialog({ id, name, url, open = true, toggle })
                                 fullWidth
                                 {...register('url', { required : true})}
                                 {...(errors.url ? { error : true, helperText : "URL is required"} : {})}
+                                className='textTransformLowerCase'
                             />
                         </Box>
                     </Grid>

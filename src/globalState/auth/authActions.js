@@ -1,6 +1,7 @@
 import {dispatch} from "../storeRedux";
 import authConstants from "./authConstants";
 import customAxios from "../../shared/customAxios";
+import {getFormData} from "../../shared/utilities";
 
 const setRequestLoading = () => {
     dispatch({
@@ -48,7 +49,7 @@ const setToken = (tokenObj) => {
 }
 export const loginUser = ({ username, password }) => {
     setRequestLoading();
-    customAxios.post('http://experience-api.sofiapulse.com/api/v1/auth/login', { username, password})
+    customAxios.post('/auth', getFormData({ username, password }))
         .then(({data}) => {
             setRequestSuccess();
             setToken({...data, username});

@@ -2,7 +2,8 @@ import customAxios from "../../shared/customAxios";
 import {dispatch} from "../storeRedux";
 import {returnAxiosPromiseError} from "../../shared/utilities";
 
-const baseURL = 'http://experience-api.sofiapulse.com/api/v1/parameters';
+// const baseURL = 'https://experience-api.sofiapulse.com/api/v1/parameters';
+const baseURL = `/auth/categoriesParameters`;
 
 
 export const fetchCategories = () => {

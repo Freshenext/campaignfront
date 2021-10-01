@@ -37,8 +37,12 @@ const ClientTableRow = ({id, name, url}) => {
             <Button variant='contained' className='primaryBackgroundColor' style={{ marginRight: 10}}
              onClick={toggleOpen}>EDIT CLIENT</Button>
             <Button variant='contained' className='primaryBackgroundColor' onClick={setToggleCampaigns}>See Campaigns</Button>
-            <ClientEditDialog {...({id, name, url})} toggle={toggleOpen} open={open}  />
-            <ClientCampaignsDialog close={setToggleCampaigns} open={toggleCampaigns} clientId={id} {...({name, url})}  />
+            {open && <ClientEditDialog {...({id, name, url})} toggle={toggleOpen} open={open}  />}
+            {toggleCampaigns && <ClientCampaignsDialog
+                close={setToggleCampaigns}
+                open={toggleCampaigns}
+                clientId={id} {...({name, url})}
+            />}
         </TableCell>
     </TableRow>
 }

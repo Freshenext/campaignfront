@@ -3,7 +3,7 @@ import useToggle from "../../shared/hooks/useToggle";
 import {Cancel, Check} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import campaignActions from "../../globalState/campaigns/campaignActions";
-import CampaignEditDialogComponent from "./CampaignEditDialogComponent";
+import CampaignEditDialogComponent from "./CampaignAdmin/CampaignEditDialogComponent";
 import CustomSnackbarComponent from "../../CustomSnackbarComponent";
 
 export default function CampaignTableRow({campaign}){
@@ -13,7 +13,7 @@ export default function CampaignTableRow({campaign}){
     return <TableRow key={campaign.id}>
         <TableCell>{campaign.id}</TableCell>
         <TableCell>{campaign.name}</TableCell>
-        <TableCell>{campaign.CampaignCategories && campaign.CampaignCategories.map(Category => Category.categoryName).join(',')}</TableCell>
+        <TableCell style={{ lineBreak: 'anywhere' }}>{campaign.CampaignCategories && campaign.CampaignCategories.map(Category => Category.categoryName).join(',')}</TableCell>
         <TableCell>{campaign.url}</TableCell>
         <TableCell>{campaign.isDesktop ? <Check /> : <Cancel />}</TableCell>
         <TableCell>{campaign.isMobile ? <Check /> : <Cancel />}</TableCell>

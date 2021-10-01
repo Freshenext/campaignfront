@@ -1,14 +1,14 @@
 import {Button, CircularProgress, Grid, Snackbar, TextField, Typography} from "@material-ui/core";
 import {useEffect, useState} from "react";
-import AlertComponent from "./../../shared/components/AlertComponent";
+import AlertComponent from "../../../shared/components/AlertComponent";
 import {useForm} from 'react-hook-form';
-import ImageInputComponent from "./../../shared/components/ImageInputComponent";
-import useCheckbox from "./../../shared/components/useCheckbox";
+import ImageInputComponent from "../../../shared/components/ImageInputComponent";
+import useCheckbox from "../../../shared/components/useCheckbox";
 import {useDispatch, useSelector} from "react-redux";
-import CampaignActions from './../../globalState/campaigns/campaignActions';
-import categoriesActions from "./../../globalState/categories/categoriesActions";
-import MultiSelectEditComponent from "./MultiSelectEditComponent";
-import {fetchCategories} from "../../globalState/categories/categoriesParametersActions";
+import CampaignActions from '../../../globalState/campaigns/campaignActions';
+import categoriesActions from "../../../globalState/categories/categoriesActions";
+import MultiSelectEditComponent from "../MultiSelectEditComponent";
+import {fetchCategories} from "../../../globalState/categories/categoriesParametersActions";
 import {Autocomplete} from "@material-ui/lab";
 
 export default function FormComponentEdit({ name, url, isMobile, isDesktop, category, urlFull, closeDialog, id, CampaignCategories}){
@@ -61,7 +61,7 @@ export default function FormComponentEdit({ name, url, isMobile, isDesktop, cate
             setCheckboxError("One checkbox must be selected.");
             return;
         }
-        await dispatch(CampaignActions.editCampaign({...formValues, id,image, isDesktop : isDesktopCheck, isMobile : isMobileCheck, category : selectedCategories.map(cat => cat.id).join(',')}));
+        await CampaignActions.editCampaign({...formValues, id,image, isDesktop : isDesktopCheck, isMobile : isMobileCheck, category : selectedCategories.join(',')});
         closeDialog();
     }
 
@@ -77,7 +77,7 @@ export default function FormComponentEdit({ name, url, isMobile, isDesktop, cate
                 {...(errors.name ? { error : true, helperText : "Name is required"} : {})}
             />
         </Grid>
-        <Grid xs={12} sm={6} md={6} item>
+        <Grid xs={12} sm={12} md={12} item>
             <Autocomplete
                 renderInput={(params) =>
                     <TextField

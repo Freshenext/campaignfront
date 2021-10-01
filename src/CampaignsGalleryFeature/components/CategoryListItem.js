@@ -8,19 +8,18 @@ import {useEffect} from "react";
 * on menu item selected background color: A791CF and color: white
 * padding to the menu item
 * */
-export default function CategoryListItem({name, selected = false, index = -1, id}){
-    const dispatch = useDispatch();
+export default function CategoryListItem({categoryName, selected = false, index = -1, id, isException = 0}){
     const {selectedCategory} = useSelector(state => state.category);
-    const isSelected = selectedCategory.id === id;
+    const isSelected = selectedCategory.categoryName === categoryName;
     const style = isSelected ? { backgroundColor : "#A791CF !important"} : {};
 
     return <div className="listItemDiv">
         <ListItem
             className={"listItem " + (isSelected === true ? " selectedListItem" : "")}
-            onClick={_ => dispatch(categoriesActions.setSelectedCategory({name, id}))}
+            onClick={_ => categoriesActions.setSelectedCategory({categoryName, id, isException})}
             selected={isSelected}
         >
-            <ListItemText primary={name} />
+            <ListItemText primary={categoryName} />
         </ListItem>
     </div>
 }

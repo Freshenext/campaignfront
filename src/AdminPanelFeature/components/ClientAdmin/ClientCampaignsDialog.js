@@ -24,7 +24,7 @@ const options = {
     search : false,
     filter : false,
     viewColumns : false,
-    selectableRows : false,
+    selectableRows : 'none',
 
 }
 

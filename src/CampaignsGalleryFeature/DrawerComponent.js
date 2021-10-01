@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-
 function DrawerComponent(props) {
     const { window } = props;
     const classes = useStyles();
@@ -64,18 +63,6 @@ function DrawerComponent(props) {
     const [mobileOpen, setMobileOpen] = useState(false);
     const { category : { categories } } = useSelector(state => state);
     const [categorySearch, setCategorySearch] = useState("");
-    const {clientUrl} = useParams();
-    console.log(clientUrl);
-
-    useEffect(() => {
-        if(clientUrl){
-            fetchClientCampaignsCategories(clientUrl);
-        } else {
-            campaignActions.fetchCampaigns(clientUrl);
-            categoriesActions.fetchCategories();
-        }
-
-    }, []);
 
     useEffect(() => {
         categoriesActions.setCategorySearch(categorySearch);
@@ -86,45 +73,46 @@ function DrawerComponent(props) {
     };
 
     const drawer = (
-        <div >
-            <div className={classes.toolbar}>
-                <img src="SofiaPulseLogo.png" className="logo" />
-            </div>
-            <Box width="100%" paddingLeft="1em" paddingRight="1em" marginBottom="30px">
-                <TextField
-                    id="searchCategoryInput"
-                    label="Search"
-                    InputLabelProps={{ style : { color: '#8667BD'}}}
-                    InputProps={{ style : { borderRadius: '10px', color : 'white'}}}
-                    variant="outlined"
-                    style={{ color: "white !important"}}
-                    onChange={(e) => {
-                        setCategorySearch(e.target.value);
-                    }}
-                    value={categorySearch}
-                    fullWidth
-                />
+        <div style={{ display: 'flex', flexDirection: 'column', height: '100%'}} className='flexItemsNotBox'>
+            <Box flexGrow={1}>
+                <div className={classes.toolbar}>
+                    <img src="SofiaPulseLogo.png" className="logo" />
+                </div>
+                <Box width="100%" paddingLeft="1em" paddingRight="1em" marginBottom="30px">
+                    <TextField
+                        id="searchCategoryInput"
+                        label="Search"
+                        InputLabelProps={{ style : { color: '#8667BD'}}}
+                        InputProps={{ style : { borderRadius: '10px', color : 'white'}}}
+                        variant="outlined"
+                        style={{ color: "white !important"}}
+                        onChange={(e) => {
+                            setCategorySearch(e.target.value);
+                        }}
+                        value={categorySearch}
+                        fullWidth
+                    />
+                </Box>
+                <CategoryListItem categoryName="All campaigns" isException={1} />
+                {categories.filter(category => {
+                    if(categorySearch !== ""){
+                        return category.categoryName.toUpperCase().includes(categorySearch.toUpperCase());
+                    } else return true;
+                })
+                    .map((category, index) => {
+                        return <CategoryListItem {...category} index={index}/>
+                    })}
             </Box>
-            <CategoryListItem name="All campaigns" />
-            {categories.filter(category => {
-                if(categorySearch !== ""){
-                    return category.name.toUpperCase().includes(categorySearch.toUpperCase());
-                } else return true;
-            })
-                .map((category, index) => {
-                return <CategoryListItem {...category} index={index}/>
-            })}
-            <BookDemoFormComponent />
+            <Box>
+                <BookDemoFormComponent />
+            </Box>
         </div>
     );
 
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-        <div className={classes.root}>
-            <CssBaseline />
-
-            <nav className={classes.drawer} aria-label="mailbox folders">
+            <nav className={classes.drawer}>
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
                     <AppBar position="fixed" className={classes.appBar} style={{ backgroundColor: '#644798'}}>
@@ -165,11 +153,6 @@ function DrawerComponent(props) {
                     </Drawer>
                 </Hidden>
             </nav>
-            <main className={classes.content}>
-                <div className={classes.toolbar} />
-                <CampaignContainerComponent />
-            </main>
-        </div>
     );
 }
 
