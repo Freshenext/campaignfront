@@ -21,7 +21,7 @@ const columns = [{ name : 'name', label : 'Name of Campaign'}, { name : 'actions
 const options = {
     download : false,
     print : false,
-    search : false,
+    search : true,
     filter : false,
     viewColumns : false,
     selectableRows : 'none',
