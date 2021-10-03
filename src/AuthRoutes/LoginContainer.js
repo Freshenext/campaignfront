@@ -35,7 +35,7 @@ export default function LoginContainer(){
                 <Grid container direction="column">
                     <Box textAlign='center'>
                         <Grid item xs={12} style={styles.items}>
-                            <img src='/logo.png' alt='SofiaPulse logo'/>
+                            <img src='/logo.png' alt='SofiaPulse logo' style={{ width: '100%'}}/>
                         </Grid>
                         <Grid item xs={12} style={styles.items}>
                             <TextField
