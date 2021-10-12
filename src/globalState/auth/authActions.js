@@ -13,7 +13,6 @@ const setRequestLoading = () => {
 }
 
 const setRequestErrorAxios = axiosError => {
-    debugger;
     var error = axiosError.toString();
     if(axiosError.response){
         const errorMessage = axiosError.response.data.message || axiosError.response.data.toString();
@@ -49,7 +48,7 @@ const setToken = (tokenObj) => {
 }
 export const loginUser = ({ username, password }) => {
     setRequestLoading();
-    customAxios.post('http://experience-api.sofiapulse.com/api/v1/auth/login', getFormData({ username, password }))
+    customAxios.post('http://experience-api.sofiapulse.com/api/v1/auth/login', { username, password })
         .then(({data}) => {
             setRequestSuccess();
             setToken({...data, username});
