@@ -16,7 +16,9 @@ import customAxios from "../../../shared/customAxios";
 import {returnAxiosPromiseError} from "../../../shared/utilities";
 import useRequest from "../../../shared/hooks/useRequest";
 
-const columns = [{ name : 'name', label : 'Name of Campaign'}, { name : 'actions', label: 'Actions'}]
+const columns = [{ name : 'name', label : 'Name of Campaign'}, { name : 'actions', label: 'Actions', options: {
+    setCellProps: () => ({ style : { width: '30%'}})
+    }}]
 
 const options = {
     download : false,
@@ -30,7 +32,8 @@ const options = {
 
 export default function ClientCampaignsDialog({ clientId, open = false, close, name, url }){
     const [campaigns, setCampaigns] = useState([]);
-    const [request, requestObj] = useRequest()
+    const [request, requestObj] = useRequest();
+    const [currentEdited, setCurrentEdited] = useState(0);
 
     const fetchCampaigns = () => {
         fetchClientCampaigns(clientId)
@@ -39,6 +42,7 @@ export default function ClientCampaignsDialog({ clientId, open = false, close, n
 
     const handleCampaignClientUpdate = (campaignId) => {
         requestObj.setRequestLoading();
+        setCurrentEdited(campaignId);
         customAxios.post(`/client/${clientId}/${campaignId}`)
             .then(({data}) => {
                 requestObj.setRequestSuccess();
@@ -46,7 +50,8 @@ export default function ClientCampaignsDialog({ clientId, open = false, close, n
             })
             .catch((error) => {
                 requestObj.setRequestError(returnAxiosPromiseError(error));
-            });
+            })
+            .finally(() => setCurrentEdited(0));
     }
     useEffect(() => {
         fetchCampaigns();
@@ -60,17 +65,28 @@ export default function ClientCampaignsDialog({ clientId, open = false, close, n
                     ...campaign,
                     actions : campaign.isClient === 1
                         ?
-                        <Button
+                        <>
+                            <Button
                             className='primaryBackgroundColor'
                             variant='contained'
                             onClick={() => handleCampaignClientUpdate(campaign.id)}
-                        >Remove {request.status === 'loading' && ( <CircularProgress />)}</Button>
+                        >Remove</Button>
+                            {request.status === 'loading' && currentEdited === campaign.id && (
+                                <CircularProgress size={20} style={{ marginLeft: 10, verticalAlign: "middle"}} />
+                            )}
+                        </>
                         :
-                        <Button
-                            className='primaryBackgroundColor'
-                            variant='contained'
-                            onClick={() => handleCampaignClientUpdate(campaign.id)}
-                        >Add {request.status === 'loading' && ( <CircularProgress />)}</Button>}))}
+                        <>
+                            <Button
+                                className='primaryBackgroundColor'
+                                variant='contained'
+                                onClick={() => handleCampaignClientUpdate(campaign.id)}
+                            >Add</Button>
+                            {request.status === 'loading' && currentEdited === campaign.id && (
+                                <CircularProgress size={20} style={{ marginLeft: 10, verticalAlign: "middle"}} />
+                            )}
+
+                        </>}))}
                 columns={columns}
                 options={options}
             />
