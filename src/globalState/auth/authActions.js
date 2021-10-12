@@ -49,7 +49,7 @@ const setToken = (tokenObj) => {
 }
 export const loginUser = ({ username, password }) => {
     setRequestLoading();
-    customAxios.post('/auth', getFormData({ username, password }))
+    customAxios.post('http://experience-api.sofiapulse.com/api/v1/auth/login', getFormData({ username, password }))
         .then(({data}) => {
             setRequestSuccess();
             setToken({...data, username});
